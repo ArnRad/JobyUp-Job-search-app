@@ -1,13 +1,23 @@
 import React from 'react';
+import WorkCards from './components/WorkCards';
 import './App.scss';
 import Header from './components/Header';
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <h1>jobyUp!</h1>
-      <h2>Header elemnt two</h2>
+      <Router>
+        <Switch>
+          <Route path="/chat">
+            <h1>I'am chat page</h1>
+          </Route>
+          <Route path="/">
+            <WorkCards />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

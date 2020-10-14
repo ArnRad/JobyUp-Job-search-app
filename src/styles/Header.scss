@@ -1,6 +1,13 @@
 $maincolor: green;
 
+.header {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-.background {
-    background-color: $maincolor;
+    img {
+        height: 80px;
+        object-fit: contain;
+    }
 }
