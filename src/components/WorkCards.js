@@ -9,9 +9,14 @@ function WorkCards() {
     //Piece of code which runs based on a condition (BETTER IF)
     useEffect(() => {
         //this is where the code runs
-        database.collection('people').onSnapshot(snapshot => (
+        const unsubscribe = database.collection('people').onSnapshot(snapshot => (
             setPeople(snapshot.docs.map(doc => doc.data()))
         ))
+
+        return () => {
+            // this is the cleanup
+            unsubscribe();
+        }
 
     }, []); //this will once if no var in []
 
