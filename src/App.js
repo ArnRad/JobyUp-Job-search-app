@@ -3,6 +3,8 @@ import WorkCards from './components/WorkCards';
 import './App.scss';
 import Header from './components/Header';
 import SwipeButtons from './components/SwipeButtons';
+import Chats from './components/Chats';
+import ChatScreen from './components/ChatScreen';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 function App() {
@@ -10,9 +12,13 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
+          <Route path="/chat/:person">
+           <Header backButton="/chat"/>
+            <ChatScreen />
+          </Route>
           <Route path="/chat">
            <Header backButton="/"/>
-            <h1>I'am chat page</h1>
+            <Chats/>
           </Route>
           <Route path="/">
             <Header />

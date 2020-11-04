@@ -1,0 +1,29 @@
+.chat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 70px;
+    border-bottom: 1px solid #fafafa;
+
+    .chat-details {
+        flex: 1;
+    }
+
+    .chat-details > p {
+        color: gray;
+    }
+
+    .chat-timestamp {
+        color: lightgray;
+    }
+
+    .chat-image {
+        margin-right: 20px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
