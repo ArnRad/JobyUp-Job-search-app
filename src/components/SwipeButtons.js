@@ -1,9 +1,7 @@
 import React from 'react';
 import ReplayIcon from "@material-ui/icons/Replay";
 import CloseIcon from "@material-ui/icons/Close";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import IconButton from "@material-ui/core/IconButton";
 import "../styles/SwipeButtons.scss";
 
@@ -16,14 +14,8 @@ function SwipeButtons() {
             <IconButton className="swipeButtons-left">
                 <CloseIcon fontSize="large"/>
             </IconButton>
-            <IconButton className="swipeButtons-star">
-                <StarRateIcon fontSize="large"/>
-            </IconButton>
             <IconButton className="swipeButtons-right">
-                <FavoriteIcon fontSize="large"/>
-            </IconButton>
-            <IconButton className="swipeButtons-lightning">
-                <FlashOnIcon fontSize="large"/>
+                <AssignmentTurnedInIcon fontSize="large"/>
             </IconButton>
         </div>
     )

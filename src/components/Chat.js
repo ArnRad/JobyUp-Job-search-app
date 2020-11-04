@@ -5,16 +5,18 @@ import { Link } from "react-router-dom";
 
 function Chat({ name, message, profilePic, timestamp }) {
     return (
-        <Link to={`/chat/${name}`}>
-            <div className="chat">
-                <Avatar className="chat-image" src={profilePic} />
-                <div className="chat-details">
-                    <h2>{name}</h2>
-                    <p>{message}</p>
+        <div className="chat-container">
+            <Link to={`/chat/${name}`}>
+                <div className="chat">
+                    <Avatar className="chat-image" src={profilePic} />
+                    <div className="chat-details">
+                        <h2>{name}</h2>
+                        <p>{message}</p>
+                    </div>
+                    <p className="chat-timestamp">{timestamp}</p>
                 </div>
-                <p className="chat-timestamp">{timestamp}</p>
-            </div>
-        </Link>
+            </Link>
+        </div>
     )
 }
 
