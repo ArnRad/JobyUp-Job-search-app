@@ -57,7 +57,6 @@ function ChatScreen() {
                 />
                 <button onClick={handleSend} type="submit" className="chatScreen-inputButton">SEND</button>
             </form>
-    
         </div>
     )
 }

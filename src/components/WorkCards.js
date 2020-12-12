@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import WorkCard from "react-tinder-card"
-import database from "./firebase"
+import fire from "./firebase"
 import "../styles/WorkCards.scss";
 
 function WorkCards() {
@@ -9,7 +9,7 @@ function WorkCards() {
     //Piece of code which runs based on a condition (BETTER IF)
     useEffect(() => {
         //this is where the code runs
-        const unsubscribe = database.collection('people').onSnapshot(snapshot => (
+        const unsubscribe = fire.firestore().collection('people').onSnapshot(snapshot => (
             setPeople(snapshot.docs.map(doc => doc.data()))
         ))
 
