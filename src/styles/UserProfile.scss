@@ -1,1 +1,61 @@
-
+.user_info_container {
+  color: #252525;
+  width: 55%;
+  height: max-content;
+  margin: 2.5% auto;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px 5px #9b9b9b31;
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  button {
+    color: #252525;
+    background: white;
+    border: 3px solid #252525;
+    border-radius: 5px;
+    cursor: pointer;
+    font: 600 1rem "Montserrat", sans-serif;
+    margin: 0.5rem;
+    padding: 0.3em 0.5em;
+    position: relative;
+    text-transform: uppercase;
+  }
+  button:hover {
+    color: #109e92;
+    border-color: #109e92;
+  }
+  .user_info_row {
+    display: flex;
+    justify-content: flex-start;
+    padding: 8% 8% 0 8%;
+    .img_placeholder {
+      width: 100px;
+      height: 115px;
+      cursor: pointer;
+    }
+    .img_placeholder:hover {
+      content: url("../assets/image_placeholder_active.png");
+    }
+    .user_info_column {
+      display: flex;
+      flex-direction: column;
+      margin-left: 8%;
+    }
+    .user_controls {
+      justify-content: space-between;
+    }
+  }
+  .user_info_row2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: justify;
+    padding: 4% 8% 8% 8%;
+    .user_bio {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+  }
+}
