@@ -9,6 +9,8 @@ import { Link, useHistory } from "react-router-dom";
 
 function Header({ backButton }) {
     const history = useHistory();
+
+    const path = window.location.href.split('/')[3]
     return (
         <div className="header">
             {backButton ? (
@@ -16,21 +18,37 @@ function Header({ backButton }) {
                     <ArrowBackIosIcon fontSize="large" className="header_icon"/>
                 </IconButton>
             ): (
-            <Link to="/profile">
-                <IconButton className="profile-icon">
-                    <PersonIcon fontSize="large"/>
-                </IconButton>
-            </Link>
+                path == "profile" ? (
+                    <Link to="/profile">
+                        <IconButton className="profile-icon active">
+                            <PersonIcon fontSize="large"/>
+                        </IconButton>
+                    </Link>
+                ) : (
+                    <Link to="/profile">
+                        <IconButton className="profile-icon">
+                            <PersonIcon fontSize="large"/>
+                        </IconButton>
+                    </Link>
+                )
             )}
 
             <Link to="/">
                 <img src={MainLogo} alt="main"/>
             </Link>
-            <Link to="/chat">
-                <IconButton>
-                    <ChatBubbleOutlineIcon fontSize="large"/>
-                </IconButton>
-            </Link>
+            {path == "chat" ? (
+                    <Link to="/chat">
+                        <IconButton className="chat-icon active">
+                            <ChatBubbleOutlineIcon fontSize="large"/>
+                        </IconButton>
+                    </Link>
+                ) : (
+                    <Link to="/chat">
+                        <IconButton className="chat-icon">
+                            <ChatBubbleOutlineIcon fontSize="large"/>
+                        </IconButton>
+                    </Link>
+            )}
         </div>
     )
 }

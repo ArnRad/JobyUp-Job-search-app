@@ -10,6 +10,7 @@ import ChatScreen from './components/ChatScreen';
 import Login from './components/authorization/Login';
 import UserProfile from './components/UserProfile';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const App = () => {
 
@@ -19,10 +20,15 @@ const App = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
+  const [userData, setData] = useState([]);
 
   const clearInputs = () => {
     setEmail('');
     setPassword('');
+  }
+
+  const clearUserData = () => {
+    setData('');
   }
 
   const clearErrors = () => {
@@ -68,6 +74,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
+    clearUserData();
     fire.auth().signOut();
   }
 
@@ -76,6 +83,14 @@ const App = () => {
       if(user) {
         clearInputs();
         setUser(user);
+
+        fire.firestore().collection("users")
+        .where("userd_id", "==", user.uid)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {setData(doc.data());});
+        });
+
       } else {
         setUser("");
       }
@@ -86,20 +101,27 @@ const App = () => {
     authListener();
   }, [])
 
-  
   return (
     <div className="App">
       {user ? (
         <Router>
           <Switch>
             <Route path="/chat/:person">
-            <Header backButton="/chat"/>
+              <Header backButton="/chat"/>
               <ChatScreen />
             </Route>
-            <Route path="/profile">
-              <Header />
-              <UserProfile handleLogout={handleLogout} userid={user.uid}/>
-            </Route>
+            {userData.userd_id ? (
+              <Route path="/profile">
+                <Header />
+                <UserProfile handleLogout={handleLogout} userid={user.uid}/>
+              </Route>
+            ) : (
+              <Route path="/profile">
+                <Header />
+                <Link to="/"><button className="btn_logout" onClick={handleLogout}>Logout</button></Link>
+                <h1>Fill form</h1>
+              </Route>
+            )}
             <Route path="/chat">
             <Header backButton="/"/>
               <Chats/>
