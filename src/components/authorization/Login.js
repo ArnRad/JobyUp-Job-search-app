@@ -2,7 +2,6 @@ import React from 'react';
 import MainLogo from "../../assets/main_logo.png";
 import "../../styles/Login.scss";
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const Login = (props) => {
@@ -17,14 +16,10 @@ const Login = (props) => {
             </div>
         <div className="login-form-container">
           <div className="login-form">
-            {/* <label className="input-label">Email</label>
-            <input type="text" autoFocus required value={email} onChange={e => setEmail(e.target.value)}/> */}
-            <TextField id="standard-basic" type="email" label="Email" autoFocus required value={email} onChange={e => setEmail(e.target.value)}/>
+            <TextField type="email" label="Email" autoFocus required value={email} onChange={e => setEmail(e.target.value)}/>
             <p className="error-message">{emailError}</p>
 
-            {/* <label className="input-label">Password</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)}/> */}
-            <TextField id="standard-basic" label="Password" type="password" required value={password} onChange={e => setPassword(e.target.value)}/>
+            <TextField label="Password" type="password" required value={password} onChange={e => setPassword(e.target.value)}/>
             <p className="error-message">{passwordError}</p>
           </div>
         </div>

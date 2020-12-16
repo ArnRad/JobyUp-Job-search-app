@@ -13,21 +13,18 @@
     display: flex;
     justify-content: flex-start;
     padding: 8% 8% 0 8%;
+    flex-wrap: wrap;
     .img_placeholder {
       width: 100px;
       height: 115px;
       cursor: pointer;
-    }
-    .img_placeholder:hover {
-      content: url("../assets/image_placeholder_active.png");
+      margin-top: 1rem;
     }
     .user_info_column {
       display: flex;
       flex-direction: column;
       margin-left: 8%;
-    }
-    .user_controls {
-      justify-content: space-between;
+      padding-top: 1rem;
     }
   }
   .user_info_row2 {
@@ -35,24 +32,42 @@
     flex-direction: column;
     justify-content: flex-start;
     text-align: justify;
-    padding: 4% 8% 8% 8%;
+    padding: 4rem 8% 4rem 8%;
     .user_bio {
       font-weight: 600;
       font-size: 1.1rem;
       margin-top: 5px;
     }
   }
+  .user_controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 4rem;
+    a {
+      text-decoration: none !important;
+    }
+  }
+  button {
+    margin-right: 2rem !important;
+    background-color: #5c5c5c;
+  }
+  button:hover {
+    background-color: #109e92;
+  }
 }
 
 .adds-section {
   width: 100%;
   display: flex;
-  margin-bottom: 60px;
-  
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px 0 60px 0;
+
   .job-section {
-    width: 50%;
+    width: 55%;
     height: 100%;
-    margin: 0px 20px 0px 30px;
+    margin: 0px 20px;
 
     .job-card {
       border: 2px solid lightgray;
@@ -67,7 +82,7 @@
     color: #252525;
     height: max-content;
     border-radius: 15px;
-    box-shadow: 0px 0px 15px 5px #9b9b9b31;;
+    box-shadow: 0px 0px 15px 5px #9b9b9b31;
     margin-bottom: 30px;
   }
 

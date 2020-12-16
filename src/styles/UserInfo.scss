@@ -35,6 +35,57 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      .user-form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        .MuiFormControl-root,
+        .MuiTextField-root {
+          display: block !important;
+          margin-bottom: 10px;
+          width: 100%;
+        }
+
+        .photo-input {
+          display: none;
+        }
+
+        .col-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          min-width: 49%;
+
+          .fieldset-gender {
+            width: max-content !important;
+          }
+            .MuiButton-containedPrimary {
+              margin-top: 20px;
+              display: block;
+            }
+
+            .upload-image {
+              width: max-content;
+              text-align: center;
+            }
+        }
+
+        .col-container:first-of-type {
+          margin-left: 20px;
+        }
+      }
     }
   }
+}
+
+.MuiInputBase-root, 
+.MuiInput-root, 
+.MuiInput-underline,
+.MuiInputBase-formControl, 
+.MuiInput-formControl {
+  width: 100%;
 }

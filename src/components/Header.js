@@ -18,7 +18,7 @@ function Header({ backButton }) {
                     <ArrowBackIosIcon fontSize="large" className="header_icon"/>
                 </IconButton>
             ): (
-                path == "profile" ? (
+                path === "profile" ? (
                     <Link to="/profile">
                         <IconButton className="profile-icon active">
                             <PersonIcon fontSize="large"/>
@@ -36,7 +36,7 @@ function Header({ backButton }) {
             <Link to="/">
                 <img src={MainLogo} alt="main"/>
             </Link>
-            {path == "chat" ? (
+            {path === "chat" ? (
                     <Link to="/chat">
                         <IconButton className="chat-icon active">
                             <ChatBubbleOutlineIcon fontSize="large"/>

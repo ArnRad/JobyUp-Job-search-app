@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import fire from "../firebase"
 import "../../styles/UserProfile.scss";
 import { Link } from "react-router-dom";
-import imgPlaceholder from "../../assets/image_placeholder.png";
 import Button from '@material-ui/core/Button';
 
 const UserProfile = ({ handleLogout, userid }) => {
@@ -10,7 +9,7 @@ const UserProfile = ({ handleLogout, userid }) => {
 
     useEffect(() => {
         fire.firestore().collection("users")
-        .where("userd_id", "==", userid)
+        .where("user_id", "==", userid)
         .get()
         .then(querySnapshot => {
             querySnapshot.docs.map(doc => {setData(doc.data()); console.log();});
@@ -23,7 +22,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                 {/* <h2>{userid}</h2> */}
                 <div className="user_info_container">
                     <div className="user_info_row">
-                        <img className="img_placeholder" src={imgPlaceholder} alt="Logo"/>
+                        <img className="img_placeholder" src={userData.img} alt="Logo"/>
                         <div className="user_info_column">
                             <span>Name</span>
                             <h2>{userData.name}</h2>
@@ -42,14 +41,14 @@ const UserProfile = ({ handleLogout, userid }) => {
                             <span>Location</span>
                             <h2>{userData.location}</h2>
                         </div>
-                        <div className="user_info_column user_controls">
-                            <Link to="/"><Button onClick={handleLogout} variant="contained" size="small" color="primary">Logout</Button></Link>
-                            <Button variant="contained" size="small" color="primary">Edit</Button>
-                        </div>
                     </div>
                     <div className="user_info_row2">
                         <span>BIO</span>
                         <span className="user_bio">{userData.bio}</span>
+                    </div>
+                    <div className="user_controls">
+                            <Link to="/"><Button onClick={handleLogout} variant="contained" className="user_button" size="small" color="primary">Logout</Button></Link>
+                            <Button variant="contained" className="user_button" size="small" color="primary">Edit</Button>
                     </div>
                 </div>
             </div>

@@ -85,7 +85,7 @@ const App = () => {
         setUser(user);
 
         fire.firestore().collection("users")
-        .where("userd_id", "==", user.uid)
+        .where("user_id", "==", user.uid)
         .get()
         .then(querySnapshot => {
             querySnapshot.docs.map(doc => {setData(doc.data());});
@@ -110,7 +110,7 @@ const App = () => {
               <Header backButton="/chat"/>
               <ChatScreen />
             </Route>
-            {userData.userd_id ? (
+            {userData.user_id ? (
               <Route path="/profile">
                 <Header />
                 <UserProfile handleLogout={handleLogout} userid={user.uid}/>
@@ -118,7 +118,7 @@ const App = () => {
             ) : (
               <Route path="/profile">
                 <Header />
-                <UserInfo handleLogout={handleLogout} userid={user.uid}/>
+                <UserInfo handleLogout={handleLogout} userid={user.uid} userEmail={user.email}/>
               </Route>
             )}
             <Route path="/chat">
