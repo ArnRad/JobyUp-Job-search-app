@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import fire from "./firebase"
-import "../styles/UserProfile.scss";
+import fire from "../firebase"
+import "../../styles/UserProfile.scss";
 import { Link } from "react-router-dom";
-import imgPlaceholder from "../assets/image_placeholder.png";
+import imgPlaceholder from "../../assets/image_placeholder.png";
+import Button from '@material-ui/core/Button';
 
 const UserProfile = ({ handleLogout, userid }) => {
     const [userData, setData] = useState([]);
@@ -42,8 +43,8 @@ const UserProfile = ({ handleLogout, userid }) => {
                             <h2>{userData.location}</h2>
                         </div>
                         <div className="user_info_column user_controls">
-                            <Link to="/"><button className="btn_logout" onClick={handleLogout}>Logout</button></Link>
-                            <button className="btn_edit" >Edit</button>
+                            <Link to="/"><Button onClick={handleLogout} variant="contained" size="small" color="primary">Logout</Button></Link>
+                            <Button variant="contained" size="small" color="primary">Edit</Button>
                         </div>
                     </div>
                     <div className="user_info_row2">

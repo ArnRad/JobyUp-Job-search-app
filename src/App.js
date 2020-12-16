@@ -8,9 +8,9 @@ import SwipeButtons from './components/SwipeButtons';
 import Chats from './components/Chats';
 import ChatScreen from './components/ChatScreen';
 import Login from './components/authorization/Login';
-import UserProfile from './components/UserProfile';
+import UserProfile from './components/user/UserProfile';
+import UserInfo from './components/user/UserInfo';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const App = () => {
 
@@ -118,8 +118,7 @@ const App = () => {
             ) : (
               <Route path="/profile">
                 <Header />
-                <Link to="/"><button className="btn_logout" onClick={handleLogout}>Logout</button></Link>
-                <h1>Fill form</h1>
+                <UserInfo handleLogout={handleLogout} userid={user.uid}/>
               </Route>
             )}
             <Route path="/chat">
