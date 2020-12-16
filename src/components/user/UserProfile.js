@@ -31,7 +31,7 @@ const UserProfile = ({ handleLogout, userid }) => {
         .where("user_id", "==", userid)
         .get()
         .then(querySnapshot => {
-            querySnapshot.docs.map(doc => {setData(doc.data()); console.log();});
+            querySnapshot.docs.map(doc => {setData(doc.data()); console.log(doc.data());});
           });
     }, []);
 
@@ -71,12 +71,12 @@ const UserProfile = ({ handleLogout, userid }) => {
         setLocation(userData.location);
         setGender(userData.gender);
         setBio(userData.bio);
-        setImage(userData.image);
       };
-  
+      
       const handleSubmit = (event) => {
           event.preventDefault();
-          const uploadTask = fire.storage().ref(`images/${userData.img_name}`).put(image);
+          if(image){
+          const uploadTask = fire.storage().ref(`images/${image.name}`).put(image);
           uploadTask.on(
               "state_changed",
               snapshot => {},
@@ -89,7 +89,9 @@ const UserProfile = ({ handleLogout, userid }) => {
                       .child(image.name)
                       .getDownloadURL()
                       .then(url => {
-                          fire.firestore().collection('users').add({
+                          fire.firestore().collection('users')
+                          .doc(userid)
+                          .update({
                               name: name,
                               surname: surname,
                               mobile: mobile,
@@ -102,7 +104,6 @@ const UserProfile = ({ handleLogout, userid }) => {
                           })
                           .then(() => {
                               alert("User Info Submited!")
-                            //   resetInputs();
                               window.location.reload(false);
                           })
                           .catch((error) => {
@@ -111,12 +112,32 @@ const UserProfile = ({ handleLogout, userid }) => {
                       })
               }
           )
+        } else{
+            fire.firestore().collection('users')
+            .doc(userid)
+            .update({
+                name: name,
+                surname: surname,
+                mobile: mobile,
+                location: location,
+                gender: value,
+                bio: bio,
+                user_id: userid,
+                email: userData.email,
+            })
+            .then(() => {
+                alert("User Info Submited!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+        }
       };
 
     return (
         <div>
             <div className="user-profile">
-                {/* <h2>{userid}</h2> */}
                 <div className="user_info_container">
                     <div className="user_info_row">
                         <img className="img_placeholder" src={userData.img} alt="Logo"/>
@@ -275,7 +296,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     onChange={handleImageChange}
                                 />
                                 <label htmlFor="contained-button-file">
-                                    <span>{userData.img}</span>
+                                    <span>{userData.img_name}</span>
                                     <Button className="upload-image" variant="contained" color="primary" component="span">
                                         Upload Photo
                                     </Button>

@@ -55,7 +55,7 @@ const UserProfile = ({ handleLogout, userid, userEmail }) => {
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
-                        fire.firestore().collection('users').add({
+                        fire.firestore().collection('users').doc(userid).set({
                             name: name,
                             surname: surname,
                             mobile: mobile,
@@ -64,7 +64,8 @@ const UserProfile = ({ handleLogout, userid, userEmail }) => {
                             bio: bio,
                             user_id: userid,
                             email: userEmail,
-                            img: url
+                            img: url,
+                            img_name: image.name
                         })
                         .then(() => {
                             alert("User Info Submited!")
@@ -116,6 +117,11 @@ const UserProfile = ({ handleLogout, userid, userEmail }) => {
                                     onChange={handleImageChange}
                                 />
                                 <label htmlFor="contained-button-file">
+                                {image ? (
+                                <span>{image.name}</span>
+                                ) : (
+                                    <span>Upload profile picture</span>
+                                )}
                                     <Button className="upload-image" variant="contained" color="primary" component="span">
                                         Upload Photo
                                     </Button>
