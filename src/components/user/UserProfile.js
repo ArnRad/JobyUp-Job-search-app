@@ -14,10 +14,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 
 const UserProfile = ({ handleLogout, userid }) => {
     const [userData, setData] = useState([]);
-<<<<<<< HEAD
     const [userJobSearchData, setUserJobSearchData] = useState([]);
     const [userEmployeeSearchData, setUserEmployeeSearchData] = useState([]);
-=======
     const [editState, setEdit] = useState(false);
 
     const [name, setName] = useState('');
@@ -27,7 +25,6 @@ const UserProfile = ({ handleLogout, userid }) => {
     const [value, setGender] = useState('female');
     const [bio, setBio] = useState('');
     const [image, setImage] = useState(null);
->>>>>>> d6f8ca15ecd0802e67d444d022bb8377a3c6d1e1
 
     useEffect(() => {
         fire.firestore().collection("users")
@@ -38,7 +35,6 @@ const UserProfile = ({ handleLogout, userid }) => {
           });
     }, []);
 
-<<<<<<< HEAD
     useEffect(() => {
         fire.firestore().collection("jobSearch")
         .where("user_id", "==", userid)
@@ -56,7 +52,7 @@ const UserProfile = ({ handleLogout, userid }) => {
             querySnapshot.docs.map(doc => {setUserEmployeeSearchData(oldArray => [...oldArray, doc.data()])});
           });
     }, []);
-=======
+
     const handleChange = (event) => {
         setGender(event.target.value);
       };
@@ -116,7 +112,6 @@ const UserProfile = ({ handleLogout, userid }) => {
               }
           )
       };
->>>>>>> d6f8ca15ecd0802e67d444d022bb8377a3c6d1e1
 
     return (
         <div>
