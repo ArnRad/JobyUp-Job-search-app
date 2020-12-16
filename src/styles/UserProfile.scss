@@ -69,11 +69,38 @@
     height: 100%;
     margin: 0px 20px;
 
-    .job-card {
-      border: 2px solid lightgray;
-      margin: 20px 60px 20px 60px;
-      border-radius: 15px;
-      padding: 15px;
+    .job-card-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .job-card {
+        border: 2px solid lightgray;
+        width: 50%;
+        max-width: 500px;
+        min-width: 300px;
+        margin: 20px 60px 20px 60px;
+        border-radius: 15px;
+        padding: 15px;
+  
+        .job-field {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          position: relative;
+          font-weight: 700;
+  
+          .job-field-description {
+            margin-right: 20px;
+            float: left;
+          }
+  
+          .job-field-value {
+            position: absolute;
+            right: 0;
+          }
+        }
+      }
     }
   }
 
@@ -96,5 +123,24 @@
     margin-right: 60px;
     padding-bottom: 7px;
     border-bottom: 1px solid lightgray;
+  }
+}
+
+.no-ad-section-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .no-ad-section {
+    text-align: center;
+
+    .ad-section-button {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      background-color: #5c5c5c;
+    }
+    .ad-section-button:hover {
+      background-color: #109e92;
+    }
   }
 }
