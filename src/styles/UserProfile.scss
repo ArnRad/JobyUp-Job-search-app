@@ -98,3 +98,80 @@
     border-bottom: 1px solid lightgray;
   }
 }
+
+.ReactModal__Content {
+  width: 60%;
+  height: max-content;
+  margin: auto;
+  text-align: center;
+  h2 {
+    margin: 2rem 0;
+    text-transform: uppercase;
+    columns: #252525;
+  }
+  .close_button {
+    float: right;
+    color: #5c5c5c;
+    cursor: pointer;
+  }
+  .close_button:hover {
+    color: rgb(212, 107, 107);
+  }
+}
+.user-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .user-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 2rem;
+    .MuiFormControl-root,
+    .MuiTextField-root {
+      display: block !important;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .photo-input {
+      display: none;
+    }
+
+    .col-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-width: 49%;
+
+      .fieldset-gender {
+        width: max-content !important;
+      }
+      .MuiButton-containedPrimary {
+        margin-top: 20px;
+        display: block;
+      }
+
+      .upload-image {
+        width: max-content;
+        text-align: center;
+      }
+    }
+
+    .col-container:first-of-type {
+      margin-left: 20px;
+    }
+  }
+}
+
+.MuiInputBase-root,
+.MuiInput-root,
+.MuiInput-underline,
+.MuiInputBase-formControl,
+.MuiInput-formControl {
+  width: 100%;
+}
