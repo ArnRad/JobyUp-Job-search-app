@@ -214,7 +214,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                         ))             
                     ) : (
                         <div className="no-ad-section">
-                            <h3>You have no job ad yet, if you like to add one, press button</h3>
+                            <h3>You have no job ad yet, if you like to add one, press the button</h3>
                             <span><Button variant="contained" className="ad-section-button" size="small" color="primary">Add</Button></span>
                         </div>
                     )}
@@ -269,7 +269,7 @@ const UserProfile = ({ handleLogout, userid }) => {
             </div>
             <Modal isOpen={editState} onRequestClose={()=>setEdit(false)}>
                 <HighlightOffIcon className="close_button" onClick={()=>setEdit(false)}></HighlightOffIcon>
-                <h2>Redaguoti profilio duomenis</h2>
+                <h2>Edit your profile info</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleSubmit}>
                             <div className="col-container">
