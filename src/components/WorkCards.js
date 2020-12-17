@@ -5,6 +5,8 @@ import "../styles/WorkCards.scss";
 
 function WorkCards() {
     const [people, setPeople] = useState([]);
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
 
     //Piece of code which runs based on a condition (BETTER IF)
     useEffect(() => {
@@ -20,6 +22,21 @@ function WorkCards() {
 
     }, []); //this will once if no var in []
 
+    const onSwipe = (direction) => {
+        if(direction === "left")
+        {
+        setLiked(false);
+        setDisliked(true);
+        } else if (direction === "right"){
+        setLiked(true);
+        setDisliked(false);
+        }
+        setTimeout(function() {
+            setLiked(false);
+            setDisliked(false); 
+        }, 1000);
+    }
+
     return (
         <div>
 
@@ -28,6 +45,7 @@ function WorkCards() {
                 {people.map(person => (
                     <WorkCard
                     className="swipe"
+                    onSwipe={onSwipe}
                     key={person.name}
                     preventSwipe={["up", "down"]}
                     >
@@ -38,7 +56,16 @@ function WorkCards() {
                         </div>
                     </WorkCard>
                 ))}
-
+                {liked ? (
+                    <img className="action_sign" src={require('../assets/tick.svg')}></img>
+                ) : (
+                    <span></span>
+                )}
+                {disliked ? (
+                    <img className="action_sign" src={require('../assets/cross.svg')}></img>
+                ) : (
+                    <span></span>
+                )}
             </div>
         </div>
     )
