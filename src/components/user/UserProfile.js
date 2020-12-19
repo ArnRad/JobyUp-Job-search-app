@@ -174,7 +174,7 @@ const UserProfile = ({ handleLogout, userid }) => {
         setSkillsEmployee(userEmployeeSearchData[index].skills);
         setTitleEmployee(userEmployeeSearchData[index].title);
         setAdID(userEmployeeSearchData[index].ad_id)
-        setImageName(userJobSearchData[index].img_name);
+        setImageName(userEmployeeSearchData[index].img_name);
       }
       
       const handleSubmit = (event) => {
