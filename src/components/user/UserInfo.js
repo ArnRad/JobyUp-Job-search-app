@@ -10,7 +10,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import "../../styles/UserInfo.scss";
 import { Link } from "react-router-dom";
 
-const UserProfile = ({ handleLogout, userid, userEmail }) => {
+const UserInfo = ({ handleLogout, userid, userEmail }) => {
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
@@ -136,4 +136,4 @@ const UserProfile = ({ handleLogout, userid, userEmail }) => {
     )
 }
 
-export default UserProfile
+export default UserInfo

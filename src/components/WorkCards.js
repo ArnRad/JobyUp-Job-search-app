@@ -3,24 +3,42 @@ import WorkCard from "react-tinder-card"
 import fire from "./firebase"
 import "../styles/WorkCards.scss";
 
-function WorkCards() {
-    const [people, setPeople] = useState([]);
+const WorkCards = ({userid}) => {
+
+    const [users, setUsers] = useState([]);
+    const [jobSearch, setJobSearch] = useState([]);
+    const [employeeSearch, setEmployeeSearch] = useState([]);
+
     const [liked, setLiked] = useState(false);
     const [disliked, setDisliked] = useState(false);
 
-    //Piece of code which runs based on a condition (BETTER IF)
     useEffect(() => {
-        //this is where the code runs
-        const unsubscribe = fire.firestore().collection('people').onSnapshot(snapshot => (
-            setPeople(snapshot.docs.map(doc => doc.data()))
+        const unsubscribe = fire.firestore().collection('jobSearch').onSnapshot(snapshot => (
+            setJobSearch(snapshot.docs.map(doc => doc.data()))
         ))
-
         return () => {
-            // this is the cleanup
             unsubscribe();
         }
+    }, []);
 
-    }, []); //this will once if no var in []
+    useEffect(() => {
+        const unsubscribe = fire.firestore().collection('employeeSearch').onSnapshot(snapshot => (
+            setEmployeeSearch(snapshot.docs.map(doc => doc.data()))
+        ))
+        return () => {
+            unsubscribe();
+        }
+    }, []);
+
+    useEffect(() => {
+        fire.firestore().collection('users').onSnapshot(snapshot => (
+            setUsers(snapshot.docs.map(doc => doc.data()))
+        ))
+    }, []);
+
+    console.log(users)
+    console.log(jobSearch)
+    console.log(employeeSearch)
 
     const onSwipe = (direction) => {
         if(direction === "left")
@@ -42,11 +60,11 @@ function WorkCards() {
 
             <div className="workCard-container">
 
-                {people.map(person => (
+                {jobSearch.map(job => (
                     <WorkCard
                     className="swipe"
                     onSwipe={onSwipe}
-                    key={person.name}
+                    key={job.ad_id}
                     preventSwipe={["up", "down"]}
                     >
                         <div
