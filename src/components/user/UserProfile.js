@@ -161,7 +161,6 @@ const UserProfile = ({ handleLogout, userid }) => {
         setTitleJob(userJobSearchData[index].title);
         setAdID(userJobSearchData[index].ad_id);
         setImageName(userJobSearchData[index].img_name);
-        console.log(userJobSearchData[index].img.name);
       }
 
       const handleEmployeeSearchEdit = (index) => {
@@ -176,7 +175,6 @@ const UserProfile = ({ handleLogout, userid }) => {
         setTitleEmployee(userEmployeeSearchData[index].title);
         setAdID(userEmployeeSearchData[index].ad_id)
         setImageName(userJobSearchData[index].img_name);
-        console.log(userJobSearchData[index].img.name);
       }
       
       const handleSubmit = (event) => {
@@ -272,7 +270,8 @@ const UserProfile = ({ handleLogout, userid }) => {
                             img_name: employeeImage.name,
                             img: url,
                             user_id: userid,
-                            ad_id: ad_id
+                            ad_id: ad_id,
+                            user_name: userData.name
                         })
                         .then(() => {
                             alert("Employee Search Advertisement Submited!")
@@ -318,7 +317,8 @@ const UserProfile = ({ handleLogout, userid }) => {
                             img_name: jobImage.name,
                             img: url,
                             user_id: userid,
-                            ad_id: ad_id
+                            ad_id: ad_id,
+                            user_name: userData.name
                         })
                 })
             .then(() => {

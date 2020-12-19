@@ -1,3 +1,4 @@
+
 .workCard-container {
   display: flex;
   justify-content: center;
@@ -9,19 +10,56 @@
 
   .card {
     position: relative;
-    width: 600px;
+    width: 550px;
+    height: 550px;
     padding: 20px;
     max-width: 600px;
-    height: 600px;
     border-radius: 20px;
     background-size: cover;
     background-position: center;
     box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+    background-color: chocolate;
+    cursor: pointer;
 
-    h3 {
+    @media (max-height: 850px) {
+      width: 400px;
+      height: 400px;
+    }
+
+    @media (max-width: 1028px) {
+      width: 400px;
+      height: 400px;
+    }
+
+    .card-info {
       position: absolute;
       bottom: 10px;
       color: white;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+
+      .card-info-title {
+        .name {
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 26px;
+        }
+      
+        .location {
+          margin-left: 10px;
+          font-weight: 400;
+          font-size: 18px;
+        }
+      }
+
+      .card-info-text{
+        overflow-wrap: break-word;
+        font-weight: 400;
+        padding-right: 10px;
+        font-size: 18px;
+        padding-bottom: 5px;
+      }
     }
   }
 }
@@ -36,6 +74,84 @@
   animation: opacityOnAndOff 1.2s;
   animation-iteration-count: 1;
   pointer-events: none;
+}
+
+.ad-container {
+  border-top: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .ad {
+    width: 100%;
+
+    .ad-header {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+
+    .ad-user-logo {
+      height: 150px;
+      width: auto;
+    }
+
+    .ad-logo {
+      margin-top: 20px;
+      height: 200px;
+      width: auto;
+    }
+
+    .ad-info-field-big {
+      text-align: left;
+      padding-left: 40px;
+      padding-right: 40px;
+
+      .ad-info-name {
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+    }
+
+    .ad-info-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 40px;
+      padding-right: 40px;
+
+      .ad-info-name {
+        font-weight: 700;
+      }
+
+      .ad-info-title {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+.ReactModal__Content {
+  max-height: 80% !important;
+}
+
+.ReactModal__Content::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.ReactModal__Content::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+.ReactModal__Content::-webkit-scrollbar-thumb
+{
+    background-color: #109e92;
 }
 
 @keyframes opacityOnAndOff {

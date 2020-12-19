@@ -127,7 +127,7 @@ const App = () => {
             </Route>
             <Route path="/">
               <Header />
-              <WorkCards userid={user.uid} />
+              <WorkCards userid={user.uid}/>
               <SwipeButtons />
             </Route>
           </Switch>
