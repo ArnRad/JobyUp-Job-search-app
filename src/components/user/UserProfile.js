@@ -20,6 +20,8 @@ const UserProfile = ({ handleLogout, userid }) => {
     const [addJobState, setAddJobState] = useState(false);
     const [addEmployeeState, setAddEmployeeState] = useState(false);
     const [editJobState, setEditJobState] = useState(false);
+    const [employeeImage, setEmployeeImage] = useState(null);
+    const [jobImage, setJobImage] = useState(null);
     const [editEmployeeState, setEditEmployeeState] = useState(false);
 
     const [name, setName] = useState('');
@@ -29,6 +31,7 @@ const UserProfile = ({ handleLogout, userid }) => {
     const [value, setGender] = useState('female');
     const [bio, setBio] = useState('');
     const [image, setImage] = useState(null);
+    const [imageName, setImageName] = useState('');
 
     const [dutiesEmployee, setDutiesEmployee] = useState('');
     const [experienceEmployee, setExperienceEmployee] = useState('');
@@ -60,6 +63,7 @@ const UserProfile = ({ handleLogout, userid }) => {
         setSkillsEmployee('');
         setTitleEmployee('');
         setAdID('');
+        setImageName('');
     }
 
     
@@ -73,6 +77,7 @@ const UserProfile = ({ handleLogout, userid }) => {
         setSkillsJob('');
         setTitleJob('');
         setAdID('');
+        setImageName('');
     }
 
     useEffect(() => {
@@ -108,11 +113,23 @@ const UserProfile = ({ handleLogout, userid }) => {
         setGender(event.target.value);
       };
   
-      const handleImageChange = (event) => {
+      const handleAddImageChange = (event) => {
           if(event.target.files[0]) {
               setImage(event.target.files[0]);
           }
       };
+
+      const handleJobImageChange = (event) => {
+        if(event.target.files[0]) {
+            setJobImage(event.target.files[0]);
+        }
+    };
+
+    const handleEmployeeImageChange = (event) => {
+        if(event.target.files[0]) {
+            setEmployeeImage(event.target.files[0]);
+        }
+    };
 
       const handleEdit = (event) => {
         setEdit(true);
@@ -142,7 +159,9 @@ const UserProfile = ({ handleLogout, userid }) => {
         setLocationJob(userJobSearchData[index].location);
         setSkillsJob(userJobSearchData[index].skills);
         setTitleJob(userJobSearchData[index].title);
-        setAdID(userJobSearchData[index].ad_id)
+        setAdID(userJobSearchData[index].ad_id);
+        setImageName(userJobSearchData[index].img_name);
+        console.log(userJobSearchData[index].img.name);
       }
 
       const handleEmployeeSearchEdit = (index) => {
@@ -156,6 +175,8 @@ const UserProfile = ({ handleLogout, userid }) => {
         setSkillsEmployee(userEmployeeSearchData[index].skills);
         setTitleEmployee(userEmployeeSearchData[index].title);
         setAdID(userEmployeeSearchData[index].ad_id)
+        setImageName(userJobSearchData[index].img_name);
+        console.log(userJobSearchData[index].img.name);
       }
       
       const handleSubmit = (event) => {
@@ -224,28 +245,45 @@ const UserProfile = ({ handleLogout, userid }) => {
         event.preventDefault();
         const crypto = require("crypto");
         const ad_id = crypto.randomBytes(16).toString("hex");
-        fire.firestore().collection('employeeSearch')
-            .doc(ad_id)
-            .set({
-                duties: dutiesEmployee,
-                experience: experienceEmployee,
-                job_field: jobFieldEmployee,
-                location: locationEmployee,
-                position: positionEmployee,
-                salary: salaryEmployee,
-                skills: skillsEmployee,
-                title: titleEmployee,
-                user_id: userid,
-                ad_id: ad_id
-
-            })
-            .then(() => {
-                alert("Employee Search Advertisement Submited!")
-                window.location.reload(false);
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+        const uploadTask = fire.storage().ref(`images/${employeeImage.name}`).put(employeeImage);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error);
+            },
+            () => {
+                fire.storage()
+                .ref("images")
+                .child(employeeImage.name)
+                .getDownloadURL()
+                .then(url => {
+                    fire.firestore().collection('employeeSearch')
+                        .doc(ad_id)
+                        .set({
+                            duties: dutiesEmployee,
+                            experience: experienceEmployee,
+                            job_field: jobFieldEmployee,
+                            location: locationEmployee,
+                            position: positionEmployee,
+                            salary: salaryEmployee,
+                            skills: skillsEmployee,
+                            title: titleEmployee,
+                            img_name: employeeImage.name,
+                            img: url,
+                            user_id: userid,
+                            ad_id: ad_id
+                        })
+                        .then(() => {
+                            alert("Employee Search Advertisement Submited!")
+                            setTimeout(function(){window.location.reload(false)}, 500);
+                        })
+                        .catch((error) => {
+                            alert(error.message)
+                        })
+                    })
+                }
+        )
     };
 
 
@@ -253,74 +291,170 @@ const UserProfile = ({ handleLogout, userid }) => {
         event.preventDefault();
         const crypto = require("crypto");
         const ad_id = crypto.randomBytes(16).toString("hex");
-        fire.firestore().collection('jobSearch')
-            .doc(ad_id)
-            .set({
-                job_field: jobFieldJob,
-                location: locationJob,
-                education: educationJob,
-                languages: languagesJob,
-                hobbies: hobbiesJob,
-                experience: experienceJob,
-                skills: skillsJob,
-                title: titleJob,
-                user_id: userid,
-                ad_id: ad_id
-
-            })
+        const uploadTask = fire.storage().ref(`images/${jobImage.name}`).put(jobImage);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error);
+            },
+            () => {
+                fire.storage()
+                .ref("images")
+                .child(jobImage.name)
+                .getDownloadURL()
+                .then(url => {
+                    fire.firestore().collection('jobSearch')
+                        .doc(ad_id)
+                        .set({
+                            job_field: jobFieldJob,
+                            location: locationJob,
+                            education: educationJob,
+                            languages: languagesJob,
+                            hobbies: hobbiesJob,
+                            experience: experienceJob,
+                            skills: skillsJob,
+                            title: titleJob,
+                            img_name: jobImage.name,
+                            img: url,
+                            user_id: userid,
+                            ad_id: ad_id
+                        })
+                })
             .then(() => {
-                alert("Job Search Advertisement Submited!")
-                window.location.reload(false);
+                alert("Job Search Advertisement Submited!");
+                setTimeout(function(){window.location.reload(false)}, 500);
             })
             .catch((error) => {
                 alert(error.message)
             })
-    };
+    });
+}
 
     const handleJobEditSubmit = (event) => {
         event.preventDefault();
-        fire.firestore().collection('jobSearch')
-            .doc(adID)
-            .update({
-                job_field: jobFieldJob,
-                location: locationJob,
-                education: educationJob,
-                languages: languagesJob,
-                hobbies: hobbiesJob,
-                experience: experienceJob,
-                skills: skillsJob,
-                title: titleJob
-            })
-            .then(() => {
-                alert("Job Search Advertisement Updated!")
-                window.location.reload(false);
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+        if(jobImage){
+            const uploadTask = fire.storage().ref(`images/${jobImage.name}`).put(jobImage);
+            uploadTask.on(
+                "state_changed",
+                snapshot => {},
+                error => {
+                    console.log(error);
+                },
+                () => {
+                    fire.storage()
+                        .ref("images")
+                        .child(jobImage.name)
+                        .getDownloadURL()
+                        .then(url => {
+                            fire.firestore().collection('jobSearch')
+                            .doc(adID)
+                            .update({
+                                job_field: jobFieldJob,
+                                location: locationJob,
+                                education: educationJob,
+                                languages: languagesJob,
+                                hobbies: hobbiesJob,
+                                experience: experienceJob,
+                                skills: skillsJob,
+                                img_name: jobImage.name,
+                                img: url,
+                                title: titleJob
+                            })
+                            .then(() => {
+                                alert("Job Search Advertisement Updated!")
+                                window.location.reload(false);
+                            })
+                            .catch((error) => {
+                                alert(error.message)
+                            })
+                        })
+                    }
+                )
+              } else{
+                fire.firestore().collection('jobSearch')
+                .doc(adID)
+                .update({
+                    job_field: jobFieldJob,
+                    location: locationJob,
+                    education: educationJob,
+                    languages: languagesJob,
+                    hobbies: hobbiesJob,
+                    experience: experienceJob,
+                    skills: skillsJob,
+                    title: titleJob
+                })
+                .then(() => {
+                    alert("Job Search Advertisement Updated!")
+                    setTimeout(function(){window.location.reload(false)}, 500);
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
+              }
     };
 
     const handleEmployeeEditSubmit = (event) => {
         event.preventDefault();
-        fire.firestore().collection('employeeSearch')
-            .doc(adID)
-            .update({
-                duties: dutiesEmployee,
-                experience: experienceEmployee,
-                job_field: jobFieldEmployee,
-                location: locationEmployee,
-                position: positionEmployee,
-                salary: salaryEmployee,
-                skills: skillsEmployee,
-                title: titleEmployee,
-            })
-            .then(() => {
-                alert("Employee Search Advertisement Updated!")
-                window.location.reload(false);
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+        if(employeeImage){
+            const uploadTask = fire.storage().ref(`images/${employeeImage.name}`).put(employeeImage);
+            uploadTask.on(
+                "state_changed",
+                snapshot => {},
+                error => {
+                    console.log(error);
+                },
+                () => {
+                    fire.storage()
+                        .ref("images")
+                        .child(employeeImage.name)
+                        .getDownloadURL()
+                        .then(url => {
+                            fire.firestore().collection('employeeSearch')
+                            .doc(adID)
+                            .update({
+                                duties: dutiesEmployee,
+                                experience: experienceEmployee,
+                                job_field: jobFieldEmployee,
+                                location: locationEmployee,
+                                position: positionEmployee,
+                                img: url,
+                                img_name: employeeImage.name,
+                                salary: salaryEmployee,
+                                skills: skillsEmployee,
+                                title: titleEmployee,
+                            })
+                            .then(() => {
+                                alert("Employee Search Advertisement Updated!")
+                                setTimeout(function(){window.location.reload(false)}, 500);
+                            })
+                            .catch((error) => {
+                                alert(error.message)
+                            })
+                        })
+                    }
+                )
+              } else{
+                fire.firestore().collection('employeeSearch')
+                .doc(adID)
+                .update({
+                    duties: dutiesEmployee,
+                    experience: experienceEmployee,
+                    job_field: jobFieldEmployee,
+                    location: locationEmployee,
+                    position: positionEmployee,
+                    salary: salaryEmployee,
+                    skills: skillsEmployee,
+                    title: titleEmployee,
+                })
+                .then(() => {
+                    alert("Employee Search Advertisement Updated!")
+                    setTimeout(function(){window.location.reload(false)}, 500);
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
+            }
     };
 
     const handleJobSearchDelete = (index) => {
@@ -407,6 +541,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <div className="job-title">
                                     <div className="job-title-value"> {job.title}</div>
                                 </div>
+                                <img className="job-image" src={job.img}></img>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
                                     <div className="job-field-value"> {job.job_field}</div>
@@ -436,9 +571,10 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     <div className="job-field-value"> {job.experience}</div>
                                 </div>
                             </div> 
-
+                            <div className="ad-function-wrap">
                             <span className="ad-functions"><Button onClick={() => handleJobSearchEdit(index)} variant="contained" className="ad-section-button" size="small" color="primary">Edit</Button></span>
                             <span className="ad-functions"><Button onClick={() => handleJobSearchDelete(index)} variant="contained" className="ad-section-button" size="small" color="primary">Delete</Button></span>
+                            </div>
                             </div>
                         ))}
                         </div>           
@@ -466,6 +602,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <div className="job-title">
                                     <div className="job-title-value"> {job.title}</div>
                                 </div>
+                                <img className="job-image" src={job.img}></img>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
                                     <div className="job-field-value"> {job.job_field}</div>
@@ -495,9 +632,10 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     <div className="job-field-value"> {job.experience}</div>
                                 </div>
                             </div> 
-
+                            <div className="ad-function-wrap">
                             <span className="ad-functions"><Button onClick={() => handleEmployeeSearchEdit(index)} variant="contained" className="ad-section-button" size="small" color="primary">Edit</Button></span>
                             <span className="ad-functions"><Button onClick={() => handleEmployeeSearchDelete(index)} variant="contained" className="ad-section-button" size="small" color="primary">Delete</Button></span>
+                            </div>
                             </div>
                         ))}
                         </div>        
@@ -514,7 +652,7 @@ const UserProfile = ({ handleLogout, userid }) => {
             </div>
             <Modal ariaHideApp={false} isOpen={editState} onRequestClose={()=>setEdit(false)}>
                 <HighlightOffIcon className="close_button" onClick={()=>setEdit(false)}></HighlightOffIcon>
-                <h2>Edit your profile info</h2>
+                <h2 className="modal-title" >Edit your profile info</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleSubmit}>
                             <div className="col-container">
@@ -538,9 +676,9 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     id="contained-button-file"
                                     multiple
                                     type="file"
-                                    onChange={handleImageChange}
+                                    onChange={handleAddImageChange}
                                 />
-                                <label htmlFor="contained-button-file">
+                                <label className="upload-image-wrap" htmlFor="contained-button-file">
                                     <span>{userData.img_name}</span>
                                     <Button className="upload-image" variant="contained" color="primary" component="span">
                                         Upload Photo
@@ -554,7 +692,7 @@ const UserProfile = ({ handleLogout, userid }) => {
 
             <Modal ariaHideApp={false} isOpen={addJobState} onRequestClose={()=> {setAddJobState(false); resetInputsJob()}}>
                 <HighlightOffIcon className="close_button" onClick={()=> {setAddJobState(false); resetInputsJob()}}></HighlightOffIcon>
-                <h2>Add Job Search advertisement</h2>
+                <h2 className="modal-title">Add Job Search advertisement</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleJobAddSubmit}>
                             <div className="col-container">
@@ -568,15 +706,34 @@ const UserProfile = ({ handleLogout, userid }) => {
                             <div className="col-container">
                                 <TextField variant="outlined" label="Experience" multiline rows={5} rowsMax={10} required value={experienceJob} onChange={(e) => setExperienceJob(e.target.value)}/>
                                 <TextField variant="outlined" label="Skills" multiline rows={5} rowsMax={10} required value={skillsJob} onChange={(e) => setSkillsJob(e.target.value)}/>
+                                <input
+                                    className="photo-input"
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={handleJobImageChange}
+                                />
+                                <label className="upload-image-wrap" htmlFor="contained-button-file">
+                                {jobImage ? (
+                                <span>{jobImage.name}</span>
+                                ) : (
+                                    <span>Upload ad picture</span>
+                                )}
+                                    <Button className="upload-image" variant="contained" color="primary" component="span">
+                                        Upload Photo
+                                    </Button>
+                                </label>
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                            <div className="form-submit-wrap">
+                                <Button className="form-submit-button" type="submit" variant="contained" color="primary">Submit</Button>
+                            </div>
                         </form>
                     </div>
             </Modal>
 
             <Modal ariaHideApp={false} isOpen={editJobState} onRequestClose={()=> {setEditJobState(false); resetInputsJob()}}>
                 <HighlightOffIcon className="close_button" onClick={()=> {setEditJobState(false); resetInputsJob()}}></HighlightOffIcon>
-                <h2>Edit Job Search Advertisement</h2>
+                <h2 className="modal-title">Edit Job Search Advertisement</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleJobEditSubmit}>
                             <div className="col-container">
@@ -590,15 +747,30 @@ const UserProfile = ({ handleLogout, userid }) => {
                             <div className="col-container">
                                 <TextField variant="outlined" label="Experience" multiline rows={5} rowsMax={10} required value={experienceJob} onChange={(e) => setExperienceJob(e.target.value)}/>
                                 <TextField variant="outlined" label="Skills" multiline rows={5} rowsMax={10} required value={skillsJob} onChange={(e) => setSkillsJob(e.target.value)}/>
+                                <input
+                                    className="photo-input"
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={handleJobImageChange}
+                                />
+                                <label className="upload-image-wrap" htmlFor="contained-button-file">
+                                    <span>{imageName}</span>
+                                    <Button className="upload-image" variant="contained" color="primary" component="span">
+                                        Upload Photo
+                                    </Button>
+                                </label>
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                            <div className="form-submit-wrap">
+                                <Button className="form-submit-button" type="submit" variant="contained" color="primary">Submit</Button>
+                            </div>
                         </form>
                     </div>
             </Modal>
 
             <Modal ariaHideApp={false} isOpen={addEmployeeState} onRequestClose={()=>{setAddEmployeeState(false); resetInputsEmployee();}}>
                 <HighlightOffIcon className="close_button" onClick={()=>{setAddEmployeeState(false); resetInputsEmployee();}}></HighlightOffIcon>
-                <h2>Add Employee Search Advertisement</h2>
+                <h2 className="modal-title">Add Employee Search Advertisement</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleEmployeeAddSubmit}>
                             <div className="col-container">
@@ -612,15 +784,34 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <TextField variant="outlined" label="Duties" multiline rows={5} rowsMax={10} required value={dutiesEmployee} onChange={(e) => setDutiesEmployee(e.target.value)}/>
                                 <TextField variant="outlined" label="Required experience" multiline rows={5} rowsMax={10} required value={experienceEmployee} onChange={(e) => setExperienceEmployee(e.target.value)}/>
                                 <TextField variant="outlined" label="Required skills" multiline rows={5} rowsMax={10} required value={skillsEmployee} onChange={(e) => setSkillsEmployee(e.target.value)}/>
+                                <input
+                                    className="photo-input"
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={handleEmployeeImageChange}
+                                />
+                                <label className="upload-image-wrap" htmlFor="contained-button-file">
+                                {employeeImage ? (
+                                <span>{employeeImage.name}</span>
+                                ) : (
+                                    <span>Upload ad picture</span>
+                                )}
+                                    <Button className="upload-image" variant="contained" color="primary" component="span">
+                                        Upload Photo
+                                    </Button>
+                                </label>
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                            <div className="form-submit-wrap">
+                                <Button className="form-submit-button" type="submit" variant="contained" color="primary">Submit</Button>
+                            </div>
                         </form>
                     </div>
             </Modal>
 
             <Modal ariaHideApp={false} isOpen={editEmployeeState} onRequestClose={()=>{setEditEmployeeState(false); resetInputsEmployee();}}>
                 <HighlightOffIcon className="close_button" onClick={()=>{setEditEmployeeState(false); resetInputsEmployee();}}></HighlightOffIcon>
-                <h2>Edit Employee Search Advertisement</h2>
+                <h2 className="modal-title">Edit Employee Search Advertisement</h2>
                 <div className="user-form-container">
                         <form className="user-form" onSubmit={handleEmployeeEditSubmit}>
                             <div className="col-container">
@@ -634,8 +825,23 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <TextField variant="outlined" label="Duties" multiline rows={5} rowsMax={10} required value={dutiesEmployee} onChange={(e) => setDutiesEmployee(e.target.value)}/>
                                 <TextField variant="outlined" label="Required experience" multiline rows={5} rowsMax={10} required value={experienceEmployee} onChange={(e) => setExperienceEmployee(e.target.value)}/>
                                 <TextField variant="outlined" label="Required skills" multiline rows={5} rowsMax={10} required value={skillsEmployee} onChange={(e) => setSkillsEmployee(e.target.value)}/>
+                                <input
+                                    className="photo-input"
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={handleEmployeeImageChange}
+                                />
+                                <label className="upload-image-wrap" htmlFor="contained-button-file">
+                                    <span>{imageName}</span>
+                                    <Button className="upload-image" variant="contained" color="primary" component="span">
+                                        Upload Photo
+                                    </Button>
+                                </label>
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                            <div className="form-submit-wrap">
+                                <Button className="form-submit-button" type="submit" variant="contained" color="primary">Submit</Button>
+                            </div>
                         </form>
                     </div>
             </Modal>

@@ -107,6 +107,13 @@
           margin-bottom: 20px;
         }
 
+        .job-image {
+          display: block;
+          width: 100px;
+          height: auto;
+          margin: auto;
+        }
+
         .job-field-big {
           margin-top: 10px;
           text-align: left;
@@ -122,9 +129,15 @@
         }
       }
 
-      .ad-functions:first-of-type {
-        margin-right: 15px;
+      .ad-functions {
+        margin: 10px 15px;
+        button {
+          width: 3rem;
+        }
       }
+    }
+    .job-card-container:last-child {
+      margin-bottom: 2rem;
     }
   }
 
@@ -156,7 +169,7 @@
   margin: auto;
   text-align: center;
   h2 {
-    margin: 2rem 0;
+    margin: 3rem 0;
     text-transform: uppercase;
     columns: #252525;
   }
@@ -220,6 +233,20 @@
       margin-left: 20px;
     }
   }
+  .modal-title {
+    margin-bottom: 2rem;
+  }
+  .upload-image-wrap {
+    margin-top: 1rem;
+  }
+  .form-submit-wrap {
+    width: 100%;
+    margin-top: 3rem;
+  }
+  .form-submit-button {
+    display: block;
+    margin: auto;
+  }
 }
 
 .MuiInputBase-root,
@@ -247,6 +274,11 @@
       background-color: #109e92;
     }
   }
+}
+.ad-function-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .MuiButton-containedPrimary {
