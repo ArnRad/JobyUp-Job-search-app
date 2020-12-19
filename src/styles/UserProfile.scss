@@ -88,7 +88,7 @@
           justify-content: flex-start;
           align-items: center;
           position: relative;
-          font-weight: 700;
+          font-weight: 400;
 
           .job-field-description {
             margin-right: 20px;
@@ -100,6 +100,30 @@
             right: 0;
           }
         }
+
+        .job-title {
+          text-align: center;
+          font-weight: 700;
+          margin-bottom: 20px;
+        }
+
+        .job-field-big {
+          margin-top: 10px;
+          text-align: left;
+
+          .job-field-description {
+            font-weight: 700;
+          }
+
+          .job-field-value {
+            width: 100%;
+            overflow-wrap: break-word;
+          }
+        }
+      }
+
+      .ad-functions:first-of-type {
+        margin-right: 15px;
       }
     }
   }
@@ -123,25 +147,6 @@
     margin-right: 60px;
     padding-bottom: 7px;
     border-bottom: 1px solid lightgray;
-  }
-}
-
-.no-ad-section-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .no-ad-section {
-    text-align: center;
-
-    .ad-section-button {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      background-color: #5c5c5c;
-    }
-    .ad-section-button:hover {
-      background-color: #109e92;
-    }
   }
 }
 
@@ -192,6 +197,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      margin-left: 15px;
+      margin-right: 15px;
       max-width: 50%;
       min-width: 40%;
 
@@ -221,4 +228,51 @@
 .MuiInputBase-formControl,
 .MuiInput-formControl {
   width: 100%;
+}
+
+.no-ad-section-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .no-ad-section {
+    text-align: center;
+
+    .ad-section-button {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      background-color: #5c5c5c;
+    }
+    .ad-section-button:hover {
+      background-color: #109e92;
+    }
+  }
+}
+
+.MuiButton-containedPrimary {
+  background-color: #5c5c5c !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #109e92 !important;
+}
+
+.MuiRadio-colorPrimary.Mui-checked {
+  color: #109e92 !important;
+}
+
+.Mui-focused {
+  color: #109e92 !important;
+}
+
+.MuiInput-underline:after {
+  border-color: #109e92 !important;
+}
+
+.MuiInputBase-root:active {
+  color: #109e92 !important;
+}
+
+.MuiOutlinedInput .Mui-focused {
+  color: #109e92 !important;
 }

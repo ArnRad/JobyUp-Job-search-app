@@ -17,6 +17,10 @@ const UserProfile = ({ handleLogout, userid }) => {
     const [userJobSearchData, setUserJobSearchData] = useState([]);
     const [userEmployeeSearchData, setUserEmployeeSearchData] = useState([]);
     const [editState, setEdit] = useState(false);
+    const [addJobState, setAddJobState] = useState(false);
+    const [addEmployeeState, setAddEmployeeState] = useState(false);
+    const [editJobState, setEditJobState] = useState(false);
+    const [editEmployeeState, setEditEmployeeState] = useState(false);
 
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
@@ -26,12 +30,57 @@ const UserProfile = ({ handleLogout, userid }) => {
     const [bio, setBio] = useState('');
     const [image, setImage] = useState(null);
 
+    const [dutiesEmployee, setDutiesEmployee] = useState('');
+    const [experienceEmployee, setExperienceEmployee] = useState('');
+    const [jobFieldEmployee, setJobFieldEmployee] = useState('');
+    const [locationEmployee, setLocationEmployee] = useState('');
+    const [positionEmployee, setPositionEmployee] = useState('');
+    const [salaryEmployee, setSalaryEmployee] = useState('');
+    const [skillsEmployee, setSkillsEmployee] = useState('');
+    const [titleEmployee, setTitleEmployee] = useState('');
+
+    const [educationJob, setEducationJob] = useState('');
+    const [experienceJob, setExperienceJob] = useState('');
+    const [hobbiesJob, setHobbiesJob] = useState('');
+    const [jobFieldJob, setJobFieldJob] = useState('');
+    const [languagesJob, setLanguagesJob] = useState('');
+    const [locationJob, setLocationJob] = useState('');
+    const [skillsJob, setSkillsJob] = useState('');
+    const [titleJob, setTitleJob] = useState('');
+    
+    const [adID, setAdID] = useState('');
+
+    const resetInputsEmployee = () => {
+        setDutiesEmployee('');
+        setExperienceEmployee('');
+        setJobFieldEmployee('');
+        setLocationEmployee('');
+        setPositionEmployee('');
+        setSalaryEmployee('');
+        setSkillsEmployee('');
+        setTitleEmployee('');
+        setAdID('');
+    }
+
+    
+    const resetInputsJob = () => {
+        setEducationJob('');
+        setExperienceJob('');
+        setHobbiesJob('');
+        setJobFieldJob('');
+        setLanguagesJob('');
+        setLocationJob('');
+        setSkillsJob('');
+        setTitleJob('');
+        setAdID('');
+    }
+
     useEffect(() => {
         fire.firestore().collection("users")
         .where("user_id", "==", userid)
         .get()
         .then(querySnapshot => {
-            querySnapshot.docs.map(doc => {setData(doc.data()); console.log(doc.data());});
+            querySnapshot.docs.map(doc => {setData(doc.data());});
           });
     }, []);
 
@@ -43,6 +92,8 @@ const UserProfile = ({ handleLogout, userid }) => {
             querySnapshot.docs.map(doc => {setUserJobSearchData(oldArray => [...oldArray, doc.data()])});
           });
     }, []);
+
+    userEmployeeSearchData.reverse();
 
     useEffect(() => {
         fire.firestore().collection("employeeSearch")
@@ -72,6 +123,40 @@ const UserProfile = ({ handleLogout, userid }) => {
         setGender(userData.gender);
         setBio(userData.bio);
       };
+
+      const handleJobSearchAdd = (event) => {
+        setAddJobState(true);
+      }
+
+      const handleEmployeeSearchAdd = (event) => {
+        setAddEmployeeState(true);
+      }
+
+      const handleJobSearchEdit = (index) => {
+        setEditJobState(true);
+        setEducationJob(userJobSearchData[index].education);
+        setExperienceJob(userJobSearchData[index].experience);
+        setHobbiesJob(userJobSearchData[index].hobbies);
+        setJobFieldJob(userJobSearchData[index].job_field);
+        setLanguagesJob(userJobSearchData[index].languages);
+        setLocationJob(userJobSearchData[index].location);
+        setSkillsJob(userJobSearchData[index].skills);
+        setTitleJob(userJobSearchData[index].title);
+        setAdID(userJobSearchData[index].ad_id)
+      }
+
+      const handleEmployeeSearchEdit = (index) => {
+        setEditEmployeeState(true);
+        setDutiesEmployee(userEmployeeSearchData[index].duties);
+        setExperienceEmployee(userEmployeeSearchData[index].experience);
+        setJobFieldEmployee(userEmployeeSearchData[index].job_field);
+        setLocationEmployee(userEmployeeSearchData[index].location);
+        setPositionEmployee(userEmployeeSearchData[index].position);
+        setSalaryEmployee(userEmployeeSearchData[index].salary);
+        setSkillsEmployee(userEmployeeSearchData[index].skills);
+        setTitleEmployee(userEmployeeSearchData[index].title);
+        setAdID(userEmployeeSearchData[index].ad_id)
+      }
       
       const handleSubmit = (event) => {
           event.preventDefault();
@@ -135,6 +220,143 @@ const UserProfile = ({ handleLogout, userid }) => {
         }
       };
 
+      const handleEmployeeAddSubmit = (event) => {
+        event.preventDefault();
+        const crypto = require("crypto");
+        const ad_id = crypto.randomBytes(16).toString("hex");
+        fire.firestore().collection('employeeSearch')
+            .doc(ad_id)
+            .set({
+                duties: dutiesEmployee,
+                experience: experienceEmployee,
+                job_field: jobFieldEmployee,
+                location: locationEmployee,
+                position: positionEmployee,
+                salary: salaryEmployee,
+                skills: skillsEmployee,
+                title: titleEmployee,
+                user_id: userid,
+                ad_id: ad_id
+
+            })
+            .then(() => {
+                alert("Employee Search Advertisement Submited!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+    };
+
+
+    const handleJobAddSubmit = (event) => {
+        event.preventDefault();
+        const crypto = require("crypto");
+        const ad_id = crypto.randomBytes(16).toString("hex");
+        fire.firestore().collection('jobSearch')
+            .doc(ad_id)
+            .set({
+                job_field: jobFieldJob,
+                location: locationJob,
+                education: educationJob,
+                languages: languagesJob,
+                hobbies: hobbiesJob,
+                experience: experienceJob,
+                skills: skillsJob,
+                title: titleJob,
+                user_id: userid,
+                ad_id: ad_id
+
+            })
+            .then(() => {
+                alert("Job Search Advertisement Submited!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+    };
+
+    const handleJobEditSubmit = (event) => {
+        event.preventDefault();
+        fire.firestore().collection('jobSearch')
+            .doc(adID)
+            .update({
+                job_field: jobFieldJob,
+                location: locationJob,
+                education: educationJob,
+                languages: languagesJob,
+                hobbies: hobbiesJob,
+                experience: experienceJob,
+                skills: skillsJob,
+                title: titleJob
+            })
+            .then(() => {
+                alert("Job Search Advertisement Updated!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+    };
+
+    const handleEmployeeEditSubmit = (event) => {
+        event.preventDefault();
+        fire.firestore().collection('employeeSearch')
+            .doc(adID)
+            .update({
+                duties: dutiesEmployee,
+                experience: experienceEmployee,
+                job_field: jobFieldEmployee,
+                location: locationEmployee,
+                position: positionEmployee,
+                salary: salaryEmployee,
+                skills: skillsEmployee,
+                title: titleEmployee,
+            })
+            .then(() => {
+                alert("Employee Search Advertisement Updated!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+    };
+
+    const handleJobSearchDelete = (index) => {
+        if(window.confirm("Are you sure you want to delete this ad?"))
+        {
+            fire.firestore().collection('jobSearch')
+            .doc(userJobSearchData[index].ad_id)
+            .delete()
+            .then(() => {
+                alert("Job Search Advertisement Deleted!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+        }
+    };
+
+    const handleEmployeeSearchDelete = (index) => {
+        if(window.confirm("Are you sure you want to delete this ad?"))
+        {
+            fire.firestore().collection('employeeSearch')
+            .doc(userEmployeeSearchData[index].ad_id)
+            .delete()
+            .then(() => {
+                alert("Employee Search Advertisement Deleted!")
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+        }
+    };
+
+
+
     return (
         <div>
             <div className="user-profile">
@@ -161,7 +383,6 @@ const UserProfile = ({ handleLogout, userid }) => {
                         </div>
                     </div>
                     <div className="user_info_row2">
-                        <span>BIO</span>
                         <span className="user_bio">{userData.bio}</span>
                     </div>
                     <div className="user_controls">
@@ -174,32 +395,29 @@ const UserProfile = ({ handleLogout, userid }) => {
                 <div className="job-section search">
                     <h1 className="job-section-header">Job Search</h1>
                     {userJobSearchData.length != 0 ? (
-                        userJobSearchData.map((job, index) => (
-                        <div className="job-card-container">
+                        <div>
+                            <div className="no-ad-section-container">
+                                <div className="no-ad-section">
+                                    <span><Button onClick={handleJobSearchAdd} variant="contained" className="ad-section-button" size="small" color="primary">Add New Ad</Button></span>
+                                </div>
+                            </div>  
+                        {userJobSearchData.map((job, index) => (
+                        <div key={index} className="job-card-container">
                             <div key={index} className="job-card">
+                                <div className="job-title">
+                                    <div className="job-title-value"> {job.title}</div>
+                                </div>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
                                     <div className="job-field-value"> {job.job_field}</div>
-                                </div>
-                                <div className="job-field">
-                                    <div className="job-field-description">Experience</div>
-                                    <div className="job-field-value"> {job.experience}</div>
-                                </div>
-                                <div className="job-field">
-                                    <div className="job-field-description">Skills</div>
-                                    <div className="job-field-value"> {job.skills}</div>
                                 </div>
                                 <div className="job-field">
                                     <div className="job-field-description">Location</div>
                                     <div className="job-field-value"> {job.location}</div>
                                 </div>
                                 <div className="job-field">
-                                    <div className="job-field-description">University</div>
-                                    <div className="job-field-value"> {job.university}</div>
-                                </div>
-                                <div className="job-field">
-                                    <div className="job-field-description">School</div>
-                                    <div className="job-field-value"> {job.school}</div>
+                                    <div className="job-field-description">Education</div>
+                                    <div className="job-field-value"> {job.education}</div>
                                 </div>
                                 <div className="job-field">
                                     <div className="job-field-description">Languages</div>
@@ -209,29 +427,44 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     <div className="job-field-description">Hobbies</div>
                                     <div className="job-field-value"> {job.hobbies}</div>
                                 </div>
+                                <div className="job-field-big">
+                                    <div className="job-field-description">Skills</div>
+                                    <div className="job-field-value"> {job.skills}</div>
+                                </div>
+                                <div className="job-field-big">
+                                    <div className="job-field-description">Experience</div>
+                                    <div className="job-field-value"> {job.experience}</div>
+                                </div>
                             </div> 
+
+                            <span className="ad-functions"><Button onClick={() => handleJobSearchEdit(index)} variant="contained" className="ad-section-button" size="small" color="primary">Edit</Button></span>
+                            <span className="ad-functions"><Button onClick={() => handleJobSearchDelete(index)} variant="contained" className="ad-section-button" size="small" color="primary">Delete</Button></span>
                             </div>
-                        ))             
+                        ))}
+                        </div>           
                     ) : (
-                        <div className="no-ad-section">
-                            <h3>You have no job ad yet, if you like to add one, press the button</h3>
-                            <span><Button variant="contained" className="ad-section-button" size="small" color="primary">Add</Button></span>
+                        <div className="no-ad-section-container">
+                            <div className="no-ad-section">
+                                <h3>You have no job ad yet, if you like to add one, press the button</h3>
+                                <span><Button onClick={handleJobSearchAdd} variant="contained" className="ad-section-button" size="small" color="primary">Add</Button></span>
+                            </div>
                         </div>
                     )}
                 </div>
                 <div className="job-section offer">
                     <h1 className="job-section-header">Employee Search</h1>
                     {userEmployeeSearchData.length != 0 ? (
-                        userEmployeeSearchData.map((job, index) => (
-                        <div className="job-card-container">
-                            <div key={index} className="job-card">
-                                <div className="job-field">
-                                    <div className="job-field-description">Duties</div>
-                                    <div className="job-field-value"> {job.duties}</div>
+                        <div>
+                            <div className="no-ad-section-container">
+                                <div className="no-ad-section">
+                                    <span><Button onClick={handleEmployeeSearchAdd} variant="contained" className="ad-section-button" size="small" color="primary">Add New Ad</Button></span>
                                 </div>
-                                <div className="job-field">
-                                    <div className="job-field-description">Experience</div>
-                                    <div className="job-field-value"> {job.experience}</div>
+                            </div>  
+                        {userEmployeeSearchData.map((job, index) => (
+                        <div key={index} className="job-card-container">
+                            <div key={index} className="job-card">
+                                <div className="job-title">
+                                    <div className="job-title-value"> {job.title}</div>
                                 </div>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
@@ -249,25 +482,37 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     <div className="job-field-description">Salary</div>
                                     <div className="job-field-value"> {job.salary}</div>
                                 </div>
-                                <div className="job-field">
+                                <div className="job-field-big">
+                                    <div className="job-field-description">Duties</div>
+                                    <div className="job-field-value"> {job.duties}</div>
+                                </div>
+                                <div className="job-field-big">
                                     <div className="job-field-description">Skills</div>
                                     <div className="job-field-value"> {job.skills}</div>
                                 </div>
+                                <div className="job-field-big">
+                                    <div className="job-field-description">Experience</div>
+                                    <div className="job-field-value"> {job.experience}</div>
+                                </div>
                             </div> 
+
+                            <span className="ad-functions"><Button onClick={() => handleEmployeeSearchEdit(index)} variant="contained" className="ad-section-button" size="small" color="primary">Edit</Button></span>
+                            <span className="ad-functions"><Button onClick={() => handleEmployeeSearchDelete(index)} variant="contained" className="ad-section-button" size="small" color="primary">Delete</Button></span>
                             </div>
-                        ))             
+                        ))}
+                        </div>        
                     ) : (
                         <div className="no-ad-section-container">
                             <div className="no-ad-section">
                                 <h3>You have no job ad yet, if you like to add one, press button</h3>
-                                <span><Button variant="contained" className="ad-section-button" size="small" color="primary">Add</Button></span>
+                                <span><Button onClick={handleEmployeeSearchAdd} variant="contained" className="ad-section-button" size="small" color="primary">Add</Button></span>
                             </div>
                         </div>
 
                     )}
                 </div>
             </div>
-            <Modal isOpen={editState} onRequestClose={()=>setEdit(false)}>
+            <Modal ariaHideApp={false} isOpen={editState} onRequestClose={()=>setEdit(false)}>
                 <HighlightOffIcon className="close_button" onClick={()=>setEdit(false)}></HighlightOffIcon>
                 <h2>Edit your profile info</h2>
                 <div className="user-form-container">
@@ -303,6 +548,94 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 </label>
                                 <Button type="submit" variant="contained" color="primary">Submit</Button>
                             </div>
+                        </form>
+                    </div>
+            </Modal>
+
+            <Modal ariaHideApp={false} isOpen={addJobState} onRequestClose={()=> {setAddJobState(false); resetInputsJob()}}>
+                <HighlightOffIcon className="close_button" onClick={()=> {setAddJobState(false); resetInputsJob()}}></HighlightOffIcon>
+                <h2>Add Job Search advertisement</h2>
+                <div className="user-form-container">
+                        <form className="user-form" onSubmit={handleJobAddSubmit}>
+                            <div className="col-container">
+                                <TextField label="Title" type="text" required value={titleJob} onChange={(e) => setTitleJob(e.target.value)}/>
+                                <TextField label="Job Field" type="text" required value={jobFieldJob} onChange={(e) => setJobFieldJob(e.target.value)}/>
+                                <TextField label="Location" type="text" required value={locationJob} onChange={(e) => setLocationJob(e.target.value)}/>
+                                <TextField label="Education" type="text" required value={educationJob} onChange={(e) => setEducationJob(e.target.value)}/>
+                                <TextField label="Languages" type="text" required value={languagesJob} onChange={(e) => setLanguagesJob(e.target.value)}/>  
+                                <TextField label="Hobbies" type="text" required value={hobbiesJob} onChange={(e) => setHobbiesJob(e.target.value)}/> 
+                            </div>
+                            <div className="col-container">
+                                <TextField variant="outlined" label="Experience" multiline rows={5} rowsMax={10} required value={experienceJob} onChange={(e) => setExperienceJob(e.target.value)}/>
+                                <TextField variant="outlined" label="Skills" multiline rows={5} rowsMax={10} required value={skillsJob} onChange={(e) => setSkillsJob(e.target.value)}/>
+                            </div>
+                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                        </form>
+                    </div>
+            </Modal>
+
+            <Modal ariaHideApp={false} isOpen={editJobState} onRequestClose={()=> {setEditJobState(false); resetInputsJob()}}>
+                <HighlightOffIcon className="close_button" onClick={()=> {setEditJobState(false); resetInputsJob()}}></HighlightOffIcon>
+                <h2>Edit Job Search Advertisement</h2>
+                <div className="user-form-container">
+                        <form className="user-form" onSubmit={handleJobEditSubmit}>
+                            <div className="col-container">
+                                <TextField label="Title" type="text" required value={titleJob} onChange={(e) => setTitleJob(e.target.value)}/>
+                                <TextField label="Job Field" type="text" required value={jobFieldJob} onChange={(e) => setJobFieldJob(e.target.value)}/>
+                                <TextField label="Location" type="text" required value={locationJob} onChange={(e) => setLocationJob(e.target.value)}/>
+                                <TextField label="Education" type="text" required value={educationJob} onChange={(e) => setEducationJob(e.target.value)}/>
+                                <TextField label="Languages" type="text" required value={languagesJob} onChange={(e) => setLanguagesJob(e.target.value)}/>  
+                                <TextField label="Hobbies" type="text" required value={hobbiesJob} onChange={(e) => setHobbiesJob(e.target.value)}/> 
+                            </div>
+                            <div className="col-container">
+                                <TextField variant="outlined" label="Experience" multiline rows={5} rowsMax={10} required value={experienceJob} onChange={(e) => setExperienceJob(e.target.value)}/>
+                                <TextField variant="outlined" label="Skills" multiline rows={5} rowsMax={10} required value={skillsJob} onChange={(e) => setSkillsJob(e.target.value)}/>
+                            </div>
+                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                        </form>
+                    </div>
+            </Modal>
+
+            <Modal ariaHideApp={false} isOpen={addEmployeeState} onRequestClose={()=>{setAddEmployeeState(false); resetInputsEmployee();}}>
+                <HighlightOffIcon className="close_button" onClick={()=>{setAddEmployeeState(false); resetInputsEmployee();}}></HighlightOffIcon>
+                <h2>Add Employee Search Advertisement</h2>
+                <div className="user-form-container">
+                        <form className="user-form" onSubmit={handleEmployeeAddSubmit}>
+                            <div className="col-container">
+                                <TextField label="Title" type="text" required value={titleEmployee} onChange={(e) => setTitleEmployee(e.target.value)}/>
+                                <TextField label="Position" type="text" required value={positionEmployee} onChange={(e) => setPositionEmployee(e.target.value)}/>
+                                <TextField label="Location" type="text" required value={locationEmployee} onChange={(e) => setLocationEmployee(e.target.value)}/>
+                                <TextField label="Job Field" type="text" required value={jobFieldEmployee} onChange={(e) => setJobFieldEmployee(e.target.value)}/>
+                                <TextField label="Salary" type="text" required value={salaryEmployee} onChange={(e) => setSalaryEmployee(e.target.value)}/>  
+                            </div>
+                            <div className="col-container">
+                                <TextField variant="outlined" label="Duties" multiline rows={5} rowsMax={10} required value={dutiesEmployee} onChange={(e) => setDutiesEmployee(e.target.value)}/>
+                                <TextField variant="outlined" label="Required experience" multiline rows={5} rowsMax={10} required value={experienceEmployee} onChange={(e) => setExperienceEmployee(e.target.value)}/>
+                                <TextField variant="outlined" label="Required skills" multiline rows={5} rowsMax={10} required value={skillsEmployee} onChange={(e) => setSkillsEmployee(e.target.value)}/>
+                            </div>
+                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                        </form>
+                    </div>
+            </Modal>
+
+            <Modal ariaHideApp={false} isOpen={editEmployeeState} onRequestClose={()=>{setEditEmployeeState(false); resetInputsEmployee();}}>
+                <HighlightOffIcon className="close_button" onClick={()=>{setEditEmployeeState(false); resetInputsEmployee();}}></HighlightOffIcon>
+                <h2>Edit Employee Search Advertisement</h2>
+                <div className="user-form-container">
+                        <form className="user-form" onSubmit={handleEmployeeEditSubmit}>
+                            <div className="col-container">
+                                <TextField label="Title" type="text" required value={titleEmployee} onChange={(e) => setTitleEmployee(e.target.value)}/>
+                                <TextField label="Position" type="text" required value={positionEmployee} onChange={(e) => setPositionEmployee(e.target.value)}/>
+                                <TextField label="Location" type="text" required value={locationEmployee} onChange={(e) => setLocationEmployee(e.target.value)}/>
+                                <TextField label="Job Field" type="text" required value={jobFieldEmployee} onChange={(e) => setJobFieldEmployee(e.target.value)}/>
+                                <TextField label="Salary" type="text" required value={salaryEmployee} onChange={(e) => setSalaryEmployee(e.target.value)}/>  
+                            </div>
+                            <div className="col-container">
+                                <TextField variant="outlined" label="Duties" multiline rows={5} rowsMax={10} required value={dutiesEmployee} onChange={(e) => setDutiesEmployee(e.target.value)}/>
+                                <TextField variant="outlined" label="Required experience" multiline rows={5} rowsMax={10} required value={experienceEmployee} onChange={(e) => setExperienceEmployee(e.target.value)}/>
+                                <TextField variant="outlined" label="Required skills" multiline rows={5} rowsMax={10} required value={skillsEmployee} onChange={(e) => setSkillsEmployee(e.target.value)}/>
+                            </div>
+                            <Button type="submit" variant="contained" color="primary">Submit</Button>
                         </form>
                     </div>
             </Modal>
