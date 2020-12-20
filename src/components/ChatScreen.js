@@ -27,16 +27,6 @@ function ChatScreen({userid}) {
         placeholder.push(userid + ':' + input);
         setMessages(placeholder);
         console.log(messages);
-        if(messages){
-            fire.firestore().collection('messages')
-            .doc(chatID)
-            .set({
-                message: messages
-            })
-            .catch((error) => {
-              alert(error.message)
-            })
-        }
         fire.firestore().collection('messages')
                           .doc(chatID)
                           .update({
