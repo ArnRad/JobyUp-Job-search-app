@@ -5,7 +5,7 @@ import "../styles/WorkCards.scss";
 import Modal from 'react-modal';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-const WorkCards = ({userid}) => {
+const WorkCards = ({userData}) => {
 
     const [jobSearch, setJobSearch] = useState([]);
     const [employeeSearch, setEmployeeSearch] = useState([]);
@@ -18,6 +18,10 @@ const WorkCards = ({userid}) => {
     const [adID, setAdID] = useState('');
     const [user, setUser] = useState('');
     const [ad, setAd] = useState('');
+
+    const [dislikes, setDislikes] = useState([]);
+    const [likes, setLikes] = useState([]);
+    const [empty, setEmpty] = useState(false);
 
     useEffect(() => {
         const unsubscribe = fire.firestore().collection('jobSearch').onSnapshot(snapshot => (
@@ -36,6 +40,15 @@ const WorkCards = ({userid}) => {
             unsubscribe();
         }
     }, []);
+
+    useEffect(() => {
+    if(userData.likes){
+    setLikes(userData.likes);
+    }
+    if(userData.dislikes){
+    setDislikes(userData.dislikes);
+    }
+    });
 
     const handleFullAddOpen = (adID, userID) => {
         setOpenFullAd(true);
@@ -58,28 +71,53 @@ const WorkCards = ({userid}) => {
             });
     }
 
-    const onSwipe = (direction) => {
+    const swiped = (direction,adID) => {
         if(direction === "left")
         {
         setLiked(false);
         setDisliked(true);
+        let placeholder = dislikes;
+        placeholder.push(adID);
+        setDislikes(placeholder);
+        fire.firestore().collection('users')
+                          .doc(userData.user_id)
+                          .update({
+                              dislikes: dislikes
+                          })
+                          .catch((error) => {
+                            alert(error.message)
+                          })
         } else if (direction === "right"){
         setLiked(true);
         setDisliked(false);
+        let placeholder = likes;
+        placeholder.push(adID);
+        setLikes(placeholder);
+        fire.firestore().collection('users')
+                          .doc(userData.user_id)
+                          .update({
+                              likes: likes
+                          })
+                          .catch((error) => {
+                            alert(error.message)
+                          })
         }
         setTimeout(function() {
             setLiked(false);
             setDisliked(false); 
         }, 1000);
     }
-
+    const emptyHandle = () => {
+        setEmpty(true);
+        console.log(empty);
+    }
     return (
         <div>
             <div className="workCard-container">
-                {jobSearch.map(job => (
+                {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id)) ?
                     <WorkCard
                     className="swipe"
-                    onSwipe={onSwipe}
+                    onSwipe={(dir) => swiped(dir, job.ad_id)}
                     key={job.ad_id}
                     preventSwipe={["up", "down"]}
                     >
@@ -95,16 +133,16 @@ const WorkCards = ({userid}) => {
                             </div>
                         </div>
                     </WorkCard>
-                ))}
+                :null)}
                 {liked ? (
                     <img className="action_sign" src={require('../assets/tick.svg')}></img>
                 ) : (
-                    <span></span>
+                    null
                 )}
                 {disliked ? (
                     <img className="action_sign" src={require('../assets/cross.svg')}></img>
                 ) : (
-                    <span></span>
+                    null
                 )}
             </div>
 
