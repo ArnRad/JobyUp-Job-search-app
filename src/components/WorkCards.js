@@ -77,6 +77,7 @@ const WorkCards = ({userData}) => {
         {
         setLiked(false);
         setDisliked(true);
+        if(userData.user_id){
         let placeholder = dislikes;
         placeholder.push(adID);
         setDislikes(placeholder);
@@ -88,9 +89,11 @@ const WorkCards = ({userData}) => {
                           .catch((error) => {
                             alert(error.message)
                           })
+        }
         } else if (direction === "right"){
         setLiked(true);
         setDisliked(false);
+        if(userData.user_id){
         let placeholder = likes;
         placeholder.push(adID);
         setLikes(placeholder);
@@ -127,6 +130,7 @@ const WorkCards = ({userData}) => {
             .catch((error) => {
                 alert(error.message)
             })
+        }
         }
         setTimeout(function() {
             setLiked(false);
