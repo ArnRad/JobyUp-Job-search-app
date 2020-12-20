@@ -1,51 +1,66 @@
-.chatScreen {
-    .chatScreen-timestamp {
-        text-align: center;
-        padding: 20px;
-        color: gray;
-        font-weight: 600;
-    }
+.chatScreen-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    .chatScreen-message {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        .chatScreen-text {
-            margin-left: 10px;
-            background-color: lightgray;
-            padding: 15px;
-            border-radius: 20px;
+    .chatScreen {
+        box-shadow: 0px 0px 15px 5px #9b9b9b31;
+        width: 50%;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        .chatScreen-timestamp {
+            text-align: center;
+            padding: 20px;
+            color: gray;
+            font-weight: 600;
         }
-
-        .chatScreen-textUser {
-            margin-left: auto;
-            background-color: #109e92;
-            padding: 15px;
-            border-radius: 20px;
-            color: white;
+    
+        .chatScreen-message {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 40px;
+            .chatScreen-text {
+                overflow-wrap: break-word;
+                max-width: 80%;
+                margin-left: 10px;
+                background-color: lightgray;
+                padding: 15px;
+                border-radius: 20px;
+            }
+    
+            .chatScreen-textUser {
+                overflow-wrap: break-word;
+                max-width: 80%;
+                margin-left: auto;
+                background-color: #109e92;
+                padding: 15px;
+                border-radius: 20px;
+                color: white;
+            }
         }
-    }
-
-    .chatScreen-input {
-        display: flex;
-        padding: 5px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        border-top: 1px solid lightgray;
-
-        .chatScreen-inputField {
-            flex: 1;
-            padding: 10px;
-            border: none;
-        }
-        
-        .chatScreen-inputButton {
-            border: none;
-            margin-right: 20px;
-            background-color: white;
-            font-weight: 800;
-            color: #fe3d71;
+    
+        .chatScreen-input {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            width: 50%;
+    
+            .chatScreen-inputField {
+                flex: 1;
+                padding: 10px;
+                border: none;
+                outline: none;
+            }
+            
+            .chatScreen-inputButton {
+                border: none;
+                background-color: white;
+                font-weight: 800;
+                color: #109e92;
+                cursor: pointer;
+            }
         }
     }
 }
+

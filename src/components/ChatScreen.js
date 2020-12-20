@@ -12,13 +12,16 @@ function ChatScreen({userid}) {
     const [chat, setChat] = useState([]);
     const [messages, setMessages] = useState([]);
 
+    
     useEffect(() => {
-        fire.firestore().collection("messages")
-        .where('chat_id','==',chatID)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
-          });
+        setInterval(function(){ 
+            fire.firestore().collection("messages")
+            .where('chat_id','==',chatID)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
+              }); 
+        }, 100);
     }, []);
 
     const handleSend = e => {
@@ -50,35 +53,47 @@ function ChatScreen({userid}) {
         }
     }
 
-    return (
-        <div className="chatScreen">
-            {messages.map ((message, index) => (
-                checkChatOwner(message) ? (
-                    <div key={index} className="chatScreen-message">
-                        <p className="chatScreen-textUser">{message.split(':')[1]}</p>
-                    </div>
-                ) : (
-                    <div key={index} className="chatScreen-message">
-                    <Avatar
-                        className="chatScreen-image"
-                        alt={message.name}
-                        src={message.image}
-                    />
-                    <p className="chatScreen-text">{message.split(':')[1]}</p>
-                </div>
-                )
-            ))}
+    const checkAvatar = () => {
+        if(chat[0].user.userID == userid)
+        {
+            return chat[0].jobUser.jobUserProfilePic
+        }
+        if(chat[0].jobUser.jobUserID == userid)
+        {
+            return chat[0].user.userProfilePic
+        }
+    }
 
-            <form className="chatScreen-input">
-                <input
-                    value={input}
-                    onChange={e => setInput(e.target.value)}
-                    className="chatScreen-inputField"
-                    placeholder="Type a message..." 
-                    type="text"
-                />
-                <button onClick={handleSend} type="submit" className="chatScreen-inputButton">SEND</button>
-            </form>
+    return (
+        <div className="chatScreen-container">
+            <div className="chatScreen">
+                {messages.map ((message, index) => (
+                    checkChatOwner(message) ? (
+                        <div key={index} className="chatScreen-message">
+                            <p className="chatScreen-textUser">{message.split(':')[1]}</p>
+                        </div>
+                    ) : (
+                        <div key={index} className="chatScreen-message">
+                            <Avatar
+                                className="chatScreen-image"
+                                src={checkAvatar()}
+                            />
+                            <p className="chatScreen-text">{message.split(':')[1]}</p>
+                        </div>
+                    )
+                ))}
+
+                <form className="chatScreen-input">
+                    <input
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        className="chatScreen-inputField"
+                        placeholder="Type a message..." 
+                        type="text"
+                    />
+                    <button onClick={handleSend} type="submit" className="chatScreen-inputButton">SEND</button>
+                </form>
+            </div>
         </div>
     )
 }
