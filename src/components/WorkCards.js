@@ -72,7 +72,7 @@ const WorkCards = ({userData}) => {
             });
     }
 
-    const swiped = (direction,adID) => {
+    const swiped = (direction,adID, jobUserId, jobUserName, jobUserProfilePic) => {
         if(direction === "left")
         {
         setLiked(false);
@@ -102,6 +102,31 @@ const WorkCards = ({userData}) => {
                           .catch((error) => {
                             alert(error.message)
                           })
+
+        fire.firestore().collection('messages')
+            .add({
+                user:
+                {
+                        userID: userData.user_id,
+                        userName: userData.name,
+                        userProfilePic: userData.img
+                },
+
+                jobUser:
+                {
+                    jobUserID: jobUserId,
+                    jobUserName: jobUserName,
+                    jobUserProfilePic: jobUserProfilePic
+                },
+                message: [ 
+
+                ]
+            })
+            .then(() => {
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
         }
         setTimeout(function() {
             setLiked(false);
@@ -114,10 +139,10 @@ const WorkCards = ({userData}) => {
         <div>
             <div className="workCard-container">
                 <div className="noAds-message">{noAdsMessage}</div>
-                {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id)) ?
+                {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id) && job.user_id != userData.user_id) ?
                     <WorkCard
                     className="swipe"
-                    onSwipe={(dir) => swiped(dir, job.ad_id)}
+                    onSwipe={(dir) => swiped(dir, job.ad_id, job.user_id, job.user_name, job.img)}
                     key={job.ad_id}
                     preventSwipe={["up", "down"]}
                     >

@@ -123,7 +123,7 @@ const App = () => {
             )}
             <Route path="/chat">
             <Header backButton="/"/>
-              <Chats/>
+              <Chats userid={user.uid}/>
             </Route>
             <Route path="/">
               <Header />
