@@ -105,9 +105,12 @@ const WorkCards = ({userData}) => {
                           .catch((error) => {
                             alert(error.message)
                           })
-
+        const crypto = require("crypto");
+        const chat_id = crypto.randomBytes(16).toString("hex");
         fire.firestore().collection('messages')
-            .add({
+        .doc(chat_id)
+        .set({
+                chat_id: chat_id,
                 user:
                 {
                         userID: userData.user_id,

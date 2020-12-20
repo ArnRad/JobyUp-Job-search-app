@@ -108,7 +108,7 @@ const App = () => {
           <Switch>
             <Route path="/chat/:person">
               <Header backButton="/chat"/>
-              <ChatScreen />
+              <ChatScreen userid={userData.user_id} />
             </Route>
             {userData.user_id ? (
               <Route path="/profile">

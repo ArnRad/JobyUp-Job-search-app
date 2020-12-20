@@ -1,36 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import fire from '../components/firebase'
 import Avatar from "@material-ui/core/Avatar"
 import "../styles/ChatScreen.scss"
 
-function ChatScreen() {
+function ChatScreen({userid}) {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatID = urlParams.get('chatID');
+
     const [input, setInput] = useState('');
-    const [messages, setMessages] = useState([
-        {
-            name: 'Ellen',
-            image: 'https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png',
-            message: 'Whats up'
-        },
-        {
-            name: 'Ellen',
-            image: 'https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png',
-            message: "I'am going home atm"
-        },
-        {
-            message: "Good for you!"
-        }
-    ]);
+    const [chat, setChat] = useState([]);
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        fire.firestore().collection("messages")
+        .where('chat_id','==',chatID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
+          });
+    }, []);
 
     const handleSend = e => {
         e.preventDefault();
-
-        setMessages([...messages, { message: input }]);
+        let placeholder = messages;
+        placeholder.push(userid + ':' + input);
+        setMessages(placeholder);
+        console.log(messages);
+        fire.firestore().collection('messages')
+                          .doc(chatID)
+                          .update({
+                              message: messages
+                          })
+                          .catch((error) => {
+                            alert(error.message)
+                          })
         setInput('');
     }
 
     return (
         <div className="chatScreen">
             <p className="chatScreen-timestamp">YOU MATCHED WITH ELLEN ON 10/08/20</p>
-            {messages.map (message => (
+            {chat.map (message => (
                 message.name ? (
                     <div className="chatScreen-message">
                         <Avatar

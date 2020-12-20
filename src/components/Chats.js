@@ -69,6 +69,7 @@ function Chats(userid) {
                 message={setMessage(chat)}
                 // timestamp="40 seconds ago"
                 profilePic={setProfilePic(chat)}
+                chatID={chat.chat_id}
             />
         ))}
         </div>
