@@ -67,31 +67,37 @@ function ChatScreen({userid}) {
     return (
         <div className="chatScreen-container">
             <div className="chatScreen">
+                {messages.length == 0 ? (
+                    <div className="chatScreen-title">Start conversation!</div>
+                ): (
+                    null
+                )}
                 {messages.map ((message, index) => (
-                    checkChatOwner(message) ? (
-                        <div key={index} className="chatScreen-message">
-                            <p className="chatScreen-textUser">{message.split(':')[1]}</p>
-                        </div>
-                    ) : (
-                        <div key={index} className="chatScreen-message">
-                            <Avatar
-                                className="chatScreen-image"
-                                src={checkAvatar()}
-                            />
-                            <p className="chatScreen-text">{message.split(':')[1]}</p>
-                        </div>
-                    )
-                ))}
-
-                <form className="chatScreen-input">
+                        checkChatOwner(message) ? (
+                            <div key={index} className="chatScreen-message">
+                                <p className="chatScreen-textUser">{message.split(':')[1]}</p>
+                            </div>
+                        ) : (
+                            <div key={index} className="chatScreen-message">
+                                <Avatar
+                                    className="chatScreen-image"
+                                    src={checkAvatar()}
+                                />
+                                <p className="chatScreen-text">{message.split(':')[1]}</p>
+                            </div>
+                        )
+                    ))
+                }
+                <form className="chatScreen-input" onSubmit={handleSend}>
                     <input
                         value={input}
                         onChange={e => setInput(e.target.value)}
                         className="chatScreen-inputField"
                         placeholder="Type a message..." 
                         type="text"
+                        required
                     />
-                    <button onClick={handleSend} type="submit" className="chatScreen-inputButton">SEND</button>
+                    <button type="submit" className="chatScreen-inputButton">SEND</button>
                 </form>
             </div>
         </div>

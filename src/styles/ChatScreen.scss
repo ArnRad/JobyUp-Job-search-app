@@ -5,9 +5,19 @@
 
     .chatScreen {
         box-shadow: 0px 0px 15px 5px #9b9b9b31;
+        border-radius: 15px;
+        min-height: 400px;
         width: 50%;
         margin-top: 20px;
-        margin-bottom: 40px;
+        margin-bottom: 80px;
+
+        .chatScreen-title {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
         .chatScreen-timestamp {
             text-align: center;
             padding: 20px;
@@ -19,7 +29,6 @@
             display: flex;
             align-items: center;
             padding: 20px;
-            margin-bottom: 40px;
             .chatScreen-text {
                 overflow-wrap: break-word;
                 max-width: 80%;
@@ -41,6 +50,8 @@
         }
     
         .chatScreen-input {
+            border: 3px solid #109e92;
+            margin-bottom: 10px;
             display: flex;
             position: fixed;
             bottom: 0;
@@ -54,6 +65,8 @@
             }
             
             .chatScreen-inputButton {
+                outline: none;
+                padding-right: 10px;
                 border: none;
                 background-color: white;
                 font-weight: 800;
