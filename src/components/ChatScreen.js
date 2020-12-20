@@ -27,6 +27,16 @@ function ChatScreen({userid}) {
         placeholder.push(userid + ':' + input);
         setMessages(placeholder);
         console.log(messages);
+        if(messages){
+            fire.firestore().collection('messages')
+            .doc(chatID)
+            .set({
+                message: messages
+            })
+            .catch((error) => {
+              alert(error.message)
+            })
+        }
         fire.firestore().collection('messages')
                           .doc(chatID)
                           .update({
@@ -38,23 +48,34 @@ function ChatScreen({userid}) {
         setInput('');
     }
 
+    const checkChatOwner = (message) => {
+        let msgUserID = message.split(":")[0];
+        if(msgUserID == userid)
+        {
+            return true;
+        }
+        if(msgUserID == userid)
+        {
+            return false;
+        }
+    }
+
     return (
         <div className="chatScreen">
-            <p className="chatScreen-timestamp">YOU MATCHED WITH ELLEN ON 10/08/20</p>
-            {chat.map (message => (
-                message.name ? (
-                    <div className="chatScreen-message">
-                        <Avatar
-                            className="chatScreen-image"
-                            alt={message.name}
-                            src={message.image}
-                        />
-                        <p className="chatScreen-text">{message.message}</p>
+            {messages.map ((message, index) => (
+                checkChatOwner(message) ? (
+                    <div key={index} className="chatScreen-message">
+                        <p className="chatScreen-textUser">{message.split(':')[1]}</p>
                     </div>
                 ) : (
-                    <div className="chatScreen-message">
-                        <p className="chatScreen-textUser">{message.message}</p>
-                    </div> 
+                    <div key={index} className="chatScreen-message">
+                    <Avatar
+                        className="chatScreen-image"
+                        alt={message.name}
+                        src={message.image}
+                    />
+                    <p className="chatScreen-text">{message.split(':')[1]}</p>
+                </div>
                 )
             ))}
 
