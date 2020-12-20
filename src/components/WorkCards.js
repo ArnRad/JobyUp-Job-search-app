@@ -22,6 +22,7 @@ const WorkCards = ({userData}) => {
     const [dislikes, setDislikes] = useState([]);
     const [likes, setLikes] = useState([]);
     const [empty, setEmpty] = useState(false);
+    let noAdsMessage = "There is no new ad's left for you!";
 
     useEffect(() => {
         const unsubscribe = fire.firestore().collection('jobSearch').onSnapshot(snapshot => (
@@ -106,14 +107,13 @@ const WorkCards = ({userData}) => {
             setLiked(false);
             setDisliked(false); 
         }, 1000);
+        
     }
-    const emptyHandle = () => {
-        setEmpty(true);
-        console.log(empty);
-    }
+
     return (
         <div>
             <div className="workCard-container">
+                <div className="noAds-message">{noAdsMessage}</div>
                 {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id)) ?
                     <WorkCard
                     className="swipe"
@@ -133,7 +133,7 @@ const WorkCards = ({userData}) => {
                             </div>
                         </div>
                     </WorkCard>
-                :null)}
+                : null ) }
                 {liked ? (
                     <img className="action_sign" src={require('../assets/tick.svg')}></img>
                 ) : (
@@ -218,7 +218,6 @@ const WorkCards = ({userData}) => {
                             </div>
                             <img className="ad-logo" src={`${ad.img}`}></img>
                         </div>
-                        {/* <Button type="submit" variant="contained" color="primary">Submit</Button> */}
                 </div>
             </Modal>
         </div>
