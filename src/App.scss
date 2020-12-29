@@ -26,3 +26,8 @@ body::-webkit-scrollbar-thumb
 {
     background-color: #109e92;
 }
+
+.App {
+  position: relative;
+  min-height: 100vh;
+}

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import WorkCards from './components/WorkCards';
 import './App.scss';
 import Header from './components/Header';
+import Footer from './components/Footer';
+import About from './components/information/About';
 import SwipeButtons from './components/SwipeButtons';
 import Chats from './components/Chats';
 import ChatScreen from './components/ChatScreen';
@@ -11,6 +13,10 @@ import Login from './components/authorization/Login';
 import UserProfile from './components/user/UserProfile';
 import UserInfo from './components/user/UserInfo';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import ScrollToTop from './components/ScrollToTop';
+import TrustAndSafety from './components/information/TrustAndSafety';
+import Support from './components/information/Support';
+import Privacy from './components/information/PrivacyPolicy';
 
 const App = () => {
 
@@ -105,6 +111,7 @@ const App = () => {
     <div className="App">
       {user ? (
         <Router>
+          <ScrollToTop />
           <Switch>
             <Route path="/chat/:person">
               <Header backButton="/chat"/>
@@ -122,8 +129,24 @@ const App = () => {
               </Route>
             )}
             <Route path="/chat">
-            <Header backButton="/"/>
+              <Header backButton="/"/>
               <Chats userid={user.uid}/>
+            </Route>
+            <Route path="/privacypolicy">
+              <Header/>
+              <Privacy/>
+            </Route>
+            <Route path="/support">
+              <Header/>
+              <Support/>
+            </Route>
+            <Route path="/trustandsafety">
+              <Header/>
+              <TrustAndSafety/>
+            </Route>
+            <Route path="/about">
+              <Header/>
+              <About/>
             </Route>
             <Route path="/">
               <Header />
@@ -131,6 +154,7 @@ const App = () => {
               <SwipeButtons />
             </Route>
           </Switch>
+          <Footer />
         </Router>
       ) : (
           <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword}

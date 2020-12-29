@@ -27,11 +27,11 @@ function Chats(userid) {
     }, []);
 
     const setName = (chat) => {
-        if(chat.user.userID == userid.userid)
+        if(chat.user.userID === userid.userid)
         {
             return chat.jobUser.jobUserName;
         }
-        if(chat.jobUser.jobUserID == userid.userid)
+        if(chat.jobUser.jobUserID === userid.userid)
         {
             return chat.user.userName;
         }
@@ -49,30 +49,39 @@ function Chats(userid) {
     };
 
     const setProfilePic = (chat) => {
-        if(chat.user.userID == userid.userid)
+        if(chat.user.userID === userid.userid)
         {
             return chat.jobUser.jobUserProfilePic
         }
-        if(chat.jobUser.jobUserID == userid.userid)
+        if(chat.jobUser.jobUserID === userid.userid)
         {
             return chat.user.userProfilePic
         }
     };
 
-    console.log(chatData)
-
     return (
-        <div className="chats">
-        {chatData.map((chat, index) => (
-            <Chat key={index}
-                name={setName(chat)}
-                message={setMessage(chat)}
-                // timestamp="40 seconds ago"
-                profilePic={setProfilePic(chat)}
-                chatID={chat.chat_id}
-            />
-        ))}
+        <div>
+            {chatData.length ? (
+                 
+                 <div className="chats">
+                 {chatData.map((chat, index) => (
+                     <Chat key={index}
+                         name={setName(chat)}
+                         message={setMessage(chat)}
+                         // timestamp="40 seconds ago"
+                         profilePic={setProfilePic(chat)}
+                         chatID={chat.chat_id}
+                     />
+                 ))}
+                 </div>
+            ): (
+                <div className="chats-container">
+                    <div className="chats-none">You have no chats yet!</div>
+                    <div className="chats-none">Like any ad to start a conversation!</div>
+                </div>
+            )}
         </div>
+
     )
 }
 

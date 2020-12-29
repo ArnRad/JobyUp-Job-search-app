@@ -12,17 +12,55 @@ function ChatScreen({userid}) {
     const [chat, setChat] = useState([]);
     const [messages, setMessages] = useState([]);
 
-    
+    const [user, setUser] = useState('');
+    const [userData, setData] = useState([]);
+
     useEffect(() => {
-        setInterval(function(){ 
-            fire.firestore().collection("messages")
-            .where('chat_id','==',chatID)
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
-              }); 
-        }, 100);
-    }, []);
+        fire.firestore().collection("messages")
+        .where('chat_id','==',chatID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});     
+          }); 
+    }, [])
+
+    useEffect(() => {
+        fire.auth().onAuthStateChanged(user => {
+            if(user) {
+              setUser(user);
+      
+              fire.firestore().collection("users")
+              .where("user_id", "==", user.uid)
+              .get()
+              .then(querySnapshot => {
+                  querySnapshot.docs.map(doc => {setData(doc.data())});
+              });
+      
+            } else {
+              setUser("");
+            }
+          });
+    }, [])
+
+    // setInterval(function(){ 
+    //     fire.firestore().collection("messages")
+    //     .where('chat_id','==',chatID)
+    //     .get()
+    //     .then(querySnapshot => {
+    //         querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
+    //       }); 
+    // }, 10000);
+
+    const checkAuth = e => {
+        let auth = false;
+        if(chat[0] && userData)
+        {
+            if(userData.user_id === chat[0].jobUser.jobUserID || userData.user_id === chat[0].user.userID){
+                auth = true;
+            }
+        }
+        return auth;
+    }
 
     const handleSend = e => {
         e.preventDefault();
@@ -66,13 +104,12 @@ function ChatScreen({userid}) {
 
     return (
         <div className="chatScreen-container">
-            <div className="chatScreen">
+            {checkAuth() ? (
+                <div className="chatScreen">
                 {messages.length == 0 ? (
                     <div className="chatScreen-title">Start conversation!</div>
                 ): (
-                    null
-                )}
-                {messages.map ((message, index) => (
+                    messages.map ((message, index) => (
                         checkChatOwner(message) ? (
                             <div key={index} className="chatScreen-message">
                                 <p className="chatScreen-textUser">{message.split(':')[1]}</p>
@@ -87,7 +124,7 @@ function ChatScreen({userid}) {
                             </div>
                         )
                     ))
-                }
+                )}
                 <form className="chatScreen-input" onSubmit={handleSend}>
                     <input
                         value={input}
@@ -100,6 +137,9 @@ function ChatScreen({userid}) {
                     <button type="submit" className="chatScreen-inputButton">SEND</button>
                 </form>
             </div>
+            ):(
+                null
+            )}
         </div>
     )
 }
