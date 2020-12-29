@@ -1,0 +1,87 @@
+.Privacy,
+.About,
+.TrustAndSafety {
+    padding: 60px;
+}
+
+.info-title {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.text-field {
+    padding: 40px;
+    text-align: center;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.safetyCols {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+
+    .col {
+        width: 20%;
+        text-align: center;
+        
+        .col-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+    
+        .col-text {
+            text-align: center;
+            margin-top: 15px;
+        }
+    }
+}
+
+.support-title {
+    font-size: 64px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 80px;
+    margin-top: 40px;
+}
+
+.supportCols {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+
+    .col {
+        width: 20%;
+        text-align: center;
+        
+        .col-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+}
+
+.support-text-field {
+    text-align: center;
+    margin-top: 120px;
+    padding: 0 80px 0 80px;
+    font-size: 28px;
+}
+
+h2 {
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+li {
+    margin-left: 40px;
+}
