@@ -5,37 +5,24 @@ import "../styles/WorkCards.scss";
 import Modal from 'react-modal';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-const WorkCards = ({userData}) => {
+const WorkCardsJob = ({userData}) => {
 
     const [jobSearch, setJobSearch] = useState([]);
-    const [employeeSearch, setEmployeeSearch] = useState([]);
 
     const [liked, setLiked] = useState(false);
     const [disliked, setDisliked] = useState(false);
 
     const [openFullAd, setOpenFullAd] = useState(false);
-    const [adUserID, setAdUserID] = useState('');
-    const [adID, setAdID] = useState('');
     const [user, setUser] = useState('');
     const [ad, setAd] = useState('');
 
     const [dislikes, setDislikes] = useState([]);
     const [likes, setLikes] = useState([]);
-    const [empty, setEmpty] = useState(false);
     let noAdsMessage = "There is no new ad's left for you!";
 
     useEffect(() => {
         const unsubscribe = fire.firestore().collection('jobSearch').onSnapshot(snapshot => (
             setJobSearch(snapshot.docs.map(doc => doc.data()))
-        ))
-        return () => {
-            unsubscribe();
-        }
-    }, []);
-
-    useEffect(() => {
-        const unsubscribe = fire.firestore().collection('employeeSearch').onSnapshot(snapshot => (
-            setEmployeeSearch(snapshot.docs.map(doc => doc.data()))
         ))
         return () => {
             unsubscribe();
@@ -53,9 +40,6 @@ const WorkCards = ({userData}) => {
 
     const handleFullAddOpen = (adID, userID) => {
         setOpenFullAd(true);
-        setAdUserID(userID)
-        setAdID(adID)
-
         
             fire.firestore().collection("users")
             .where("user_id", "==", userID)
@@ -180,7 +164,7 @@ const WorkCards = ({userData}) => {
 
             <Modal ariaHideApp={false} isOpen={openFullAd} onRequestClose={()=>{setOpenFullAd(false)}}>
                 <HighlightOffIcon className="close_button" onClick={()=>{setOpenFullAd(false)}}></HighlightOffIcon>
-                <h2>Hello full Ad</h2>
+                <h2>Hello, I'am {user.name}</h2>
                 <div className="ad-container">
                         <div className="ad">
                             <div className="ad-header">Biography</div>
@@ -256,4 +240,4 @@ const WorkCards = ({userData}) => {
     )
 }
 
-export default WorkCards
+export default WorkCardsJob

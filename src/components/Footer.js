@@ -14,22 +14,22 @@ function Footer() {
             <div className="footer-row-info">
                 <div className="footer-nav-button">
                     <Link to="/about">
-                        <a>About us</a>
+                        About us
                     </Link>
                 </div>
                 <div className="footer-nav-button">
                     <Link to="/trustandsafety">
-                        <a>Trust and Safety</a>
+                        Trust and Safety
                     </Link>
                 </div>
                 <div className="footer-nav-button">
                     <Link to="/support">
-                        <a>Support</a>
+                        Support
                     </Link>
                 </div>
                 <div className="footer-nav-button">
                     <Link to="/privacypolicy">
-                        <a>Privacy Policy</a>
+                        Privacy Policy
                     </Link>
                 </div>
             </div>
@@ -47,16 +47,16 @@ function Footer() {
                 </div>
                 <div className="social-icons">
                     <div className="icon-item">
-                        <a><FacebookIcon /></a>
+                        <FacebookIcon />
                     </div>
                     <div className="icon-item">
-                        <a><InstagramIcon /></a>
+                        <InstagramIcon />
                     </div>
                     <div className="icon-item">
-                        <a><TwitterIcon /></a>
+                        <TwitterIcon />
                     </div>
                     <div className="icon-item">
-                        <a><LinkedInIcon /></a>
+                        <LinkedInIcon />
                     </div>
                 </div>
             </div>

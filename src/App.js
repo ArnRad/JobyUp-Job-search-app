@@ -1,7 +1,6 @@
 import React from 'react';
 import fire from './components/firebase'
 import { useEffect, useState } from 'react';
-import WorkCards from './components/WorkCards';
 import './App.scss';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -17,6 +16,9 @@ import ScrollToTop from './components/ScrollToTop';
 import TrustAndSafety from './components/information/TrustAndSafety';
 import Support from './components/information/Support';
 import Privacy from './components/information/PrivacyPolicy';
+import CategoryButtons from './components/CategoryButtons';
+import WorkCardsJob from './components/WorkCardsJob';
+import WorkCardsEmployee from './components/WorkCardsEmployee';
 
 const App = () => {
 
@@ -27,6 +29,7 @@ const App = () => {
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
   const [userData, setData] = useState([]);
+  const [chooseCard, setChooseCard] = useState('job');
 
   const clearInputs = () => {
     setEmail('');
@@ -103,6 +106,14 @@ const App = () => {
     });
   };
 
+  const setCardsJob = () => {
+    setChooseCard("job")
+  }
+
+  const setCardsEmployee = () => {
+    setChooseCard("employee")
+  }
+
   useEffect(() => {
     authListener();
   }, [])
@@ -150,7 +161,12 @@ const App = () => {
             </Route>
             <Route path="/">
               <Header />
-              <WorkCards userData={userData}/>
+              <CategoryButtons onEmployeeClick={setCardsEmployee} onJobClick={setCardsJob}/>
+              {chooseCard === "job" ? (
+                <WorkCardsJob userData={userData}/>
+              ):(
+                <WorkCardsEmployee userData={userData}/>
+              )}
               <SwipeButtons />
             </Route>
           </Switch>

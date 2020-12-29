@@ -53,7 +53,8 @@
     }
 }
 
-a:hover {
+.footer-nav-button:hover,
+.icon-item:hover {
     color: #109e92;
     cursor: pointer;
 }
