@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import WorkCard from "react-tinder-card";
 import fire from "./firebase";
 import "../styles/WorkCards.scss";
+import "../styles/SwipeButtons.scss";
 import Modal from 'react-modal';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import ReplayIcon from "@material-ui/icons/Replay";
+import CloseIcon from "@material-ui/icons/Close";
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import IconButton from "@material-ui/core/IconButton";
 
 const WorkCardsJob = ({userData}) => {
 
@@ -30,12 +35,12 @@ const WorkCardsJob = ({userData}) => {
     }, []);
 
     useEffect(() => {
-    if(userData.likes){
-    setLikes(userData.likes);
-    }
-    if(userData.dislikes){
-    setDislikes(userData.dislikes);
-    }
+        if(userData.likes){
+            setLikes(userData.likes);
+        }
+        if(userData.dislikes){
+            setDislikes(userData.dislikes);
+        }
     });
 
     const handleFullAddOpen = (adID, userID) => {
@@ -126,11 +131,131 @@ const WorkCardsJob = ({userData}) => {
         
     }
 
+    const handleSwipeButtons = (action, adID, jobUserId, jobUserName, jobUserProfilePic) => {
+        if(action === "disliked")
+        {
+            console.log("vyksta dislaiko metodas")
+            setLiked(false);
+            setDisliked(true);
+            if(userData.user_id){
+                let placeholder = dislikes;
+                placeholder.push(adID);
+                setDislikes(placeholder);
+                fire.firestore().collection('users')
+                    .doc(userData.user_id)
+                    .update({
+                        dislikes: dislikes
+                    })
+                    .catch((error) => {
+                        alert(error.message)
+                    })
+            }       
+        } else if (action === "liked"){
+            console.log("vyksta laiko metodas")
+            setLiked(true);
+            setDisliked(false);
+            if(userData.user_id){
+                let placeholder = likes;
+                placeholder.push(adID);
+                setLikes(placeholder);
+                fire.firestore().collection('users')
+                    .doc(userData.user_id)
+                    .update({
+                        likes: likes
+                    })
+                    .catch((error) => {
+                        alert(error.message)
+                    })
+            const crypto = require("crypto");
+            const chat_id = crypto.randomBytes(16).toString("hex");
+            fire.firestore().collection('messages')
+            .doc(chat_id)
+            .set({
+                chat_id: chat_id,
+                user:
+                {
+                    userID: userData.user_id,
+                    userName: userData.name,
+                    userProfilePic: userData.img
+                },
+
+                jobUser:
+                {
+                    jobUserID: jobUserId,
+                    jobUserName: jobUserName,
+                    jobUserProfilePic: jobUserProfilePic
+                },
+                message: [ 
+
+                ]
+            })
+            .then(() => {
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
+        }
+        } else if (action === "reset") {
+            if(dislikes.length !== 0) {
+                let placeholder = dislikes;
+                placeholder.length = placeholder.length - 1;
+                setDislikes(placeholder);
+                fire.firestore().collection('users')
+                    .doc(userData.user_id)
+                    .update({
+                        dislikes: dislikes
+                    })
+                    .catch((error) => {
+                        alert(error.message)
+                    })
+                console.log(dislikes)
+                //window.location.reload();
+            }
+        }
+            setTimeout(function() {
+                setLiked(false);
+                setDisliked(false); 
+            }, 1000);
+    }
+
+    // Metodas skirtas surasti rodomo skelbimo informacija
+    const getDisplayAdInfo = () => {
+        let adInfo = [];
+        for(let i = 0; i < jobSearch.length; i++)
+        {
+            if(!likes.includes(jobSearch[i].ad_id) && !dislikes.includes(jobSearch[i].ad_id) && jobSearch[i].user_id !== userData.user_id){
+                adInfo.adId = jobSearch[i].ad_id;
+                adInfo.adUserId = jobSearch[i].user_id;
+                adInfo.adUserName = jobSearch[i].user_name;
+                adInfo.adUserImg = jobSearch[i].img;
+            }
+        }
+        return adInfo;
+    }
+
+    // Prideti metodai kurie atlieka veiksmus pagal paspausta mygtuka
+
+    const handleOnDislikeClick = () => {
+        let adInfo = getDisplayAdInfo();
+        handleSwipeButtons("disliked", adInfo.adId, adInfo.adUserId, adInfo.adUserName, adInfo.adUserImg);
+        console.log(adInfo)
+    }
+    
+    const handleOnLikeClick = () => {
+        let adInfo = getDisplayAdInfo();
+        handleSwipeButtons("liked", adInfo.adId, adInfo.adUserId, adInfo.adUserName, adInfo.adUserImg);
+        console.log(adInfo)
+    }
+
+    const handleOnSkipClick = () => {
+        handleSwipeButtons("reset")
+    }
+
     return (
         <div>
             <div className="workCard-container">
                 <div className="noAds-message">{noAdsMessage}</div>
-                {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id) && job.user_id != userData.user_id) ?
+                {jobSearch.map(job => (!likes.includes(job.ad_id) && !dislikes.includes(job.ad_id) && job.user_id !== userData.user_id) ?
                     <WorkCard
                     className="swipe"
                     onSwipe={(dir) => swiped(dir, job.ad_id, job.user_id, job.user_name, job.img)}
@@ -151,15 +276,29 @@ const WorkCardsJob = ({userData}) => {
                     </WorkCard>
                 : null ) }
                 {liked ? (
-                    <img className="action_sign" src={require('../assets/tick.svg')}></img>
+                    <img alt="liked" className="action_sign" src={require('../assets/tick.svg')}></img>
                 ) : (
                     null
                 )}
                 {disliked ? (
-                    <img className="action_sign" src={require('../assets/cross.svg')}></img>
+                    <img alt="disliked" className="action_sign" src={require('../assets/cross.svg')}></img>
                 ) : (
                     null
                 )}
+
+                {/* Prideti mygtukai is swipebuttons klases i workcards klase */}
+                <div className="swipeButtons">
+                    <IconButton className="swipeButtons-repeat" onClick={handleOnSkipClick}>
+                        <ReplayIcon fontSize="large"/>
+                    </IconButton>
+                    <IconButton className="swipeButtons-left" onClick={handleOnDislikeClick}>
+                        <CloseIcon fontSize="large"/>
+                    </IconButton>
+                    <IconButton className="swipeButtons-right" onClick={handleOnLikeClick}>
+                        <AssignmentTurnedInIcon fontSize="large"/>
+                    </IconButton>
+                </div>
+
             </div>
 
             <Modal ariaHideApp={false} isOpen={openFullAd} onRequestClose={()=>{setOpenFullAd(false)}}>
@@ -171,7 +310,7 @@ const WorkCardsJob = ({userData}) => {
                             <div className="ad-info-field">
                                 <div className="ad-info-title">{user.bio}</div>
                             </div>
-                            <img className="ad-user-logo" src={`${user.img}`}></img>
+                            <img alt="ad-user-logo" className="ad-user-logo" src={`${user.img}`}></img>
                             <div className="ad-header">About me</div>
                             <div className="ad-info-field">
                                 <div className="ad-info-name">Name</div>
@@ -232,7 +371,7 @@ const WorkCardsJob = ({userData}) => {
                                 <div className="ad-info-name">Experience</div>
                                 <div className="ad-info-value">{ad.experience}</div>
                             </div>
-                            <img className="ad-logo" src={`${ad.img}`}></img>
+                            <img alt="ad-logo" className="ad-logo" src={`${ad.img}`}></img>
                         </div>
                 </div>
             </Modal>

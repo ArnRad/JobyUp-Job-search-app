@@ -39,7 +39,7 @@ function Chats(userid) {
     };
 
     const setMessage = (chat) => {
-        if(chat.messages === undefined || chat.messages.length == 0)
+        if(chat.messages === undefined || chat.messages.length === 0)
         {
             return '';
         } else {

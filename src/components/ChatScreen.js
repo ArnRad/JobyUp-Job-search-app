@@ -12,7 +12,6 @@ function ChatScreen({userid}) {
     const [chat, setChat] = useState([]);
     const [messages, setMessages] = useState([]);
 
-    const [user, setUser] = useState('');
     const [userData, setData] = useState([]);
 
     useEffect(() => {
@@ -27,17 +26,12 @@ function ChatScreen({userid}) {
     useEffect(() => {
         fire.auth().onAuthStateChanged(user => {
             if(user) {
-              setUser(user);
-      
               fire.firestore().collection("users")
               .where("user_id", "==", user.uid)
               .get()
               .then(querySnapshot => {
                   querySnapshot.docs.map(doc => {setData(doc.data())});
               });
-      
-            } else {
-              setUser("");
             }
           });
     }, [])
@@ -81,22 +75,22 @@ function ChatScreen({userid}) {
 
     const checkChatOwner = (message) => {
         let msgUserID = message.split(":")[0];
-        if(msgUserID == userid)
+        if(msgUserID === userid)
         {
             return true;
         }
-        if(msgUserID == userid)
+        if(msgUserID === userid)
         {
             return false;
         }
     }
 
     const checkAvatar = () => {
-        if(chat[0].user.userID == userid)
+        if(chat[0].user.userID === userid)
         {
             return chat[0].jobUser.jobUserProfilePic
         }
-        if(chat[0].jobUser.jobUserID == userid)
+        if(chat[0].jobUser.jobUserID === userid)
         {
             return chat[0].user.userProfilePic
         }
@@ -106,7 +100,7 @@ function ChatScreen({userid}) {
         <div className="chatScreen-container">
             {checkAuth() ? (
                 <div className="chatScreen">
-                {messages.length == 0 ? (
+                {messages.length === 0 ? (
                     <div className="chatScreen-title">Start conversation!</div>
                 ): (
                     messages.map ((message, index) => (

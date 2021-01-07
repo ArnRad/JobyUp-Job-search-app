@@ -5,7 +5,6 @@ import './App.scss';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import About from './components/information/About';
-import SwipeButtons from './components/SwipeButtons';
 import Chats from './components/Chats';
 import ChatScreen from './components/ChatScreen';
 import Login from './components/authorization/Login';
@@ -167,7 +166,6 @@ const App = () => {
               ):(
                 <WorkCardsEmployee userData={userData}/>
               )}
-              <SwipeButtons />
             </Route>
           </Switch>
           <Footer />

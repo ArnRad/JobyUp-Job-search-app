@@ -528,7 +528,7 @@ const UserProfile = ({ handleLogout, userid }) => {
             <div className="adds-section">
                 <div className="job-section search">
                     <h1 className="job-section-header">Job Search</h1>
-                    {userJobSearchData.length != 0 ? (
+                    {userJobSearchData.length !== 0 ? (
                         <div>
                             <div className="no-ad-section-container">
                                 <div className="no-ad-section">
@@ -541,7 +541,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <div className="job-title">
                                     <div className="job-title-value"> {job.title}</div>
                                 </div>
-                                <img className="job-image" src={job.img}></img>
+                                <img alt="job-image" className="job-image" src={job.img}></img>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
                                     <div className="job-field-value"> {job.job_field}</div>
@@ -602,7 +602,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                 <div className="job-title">
                                     <div className="job-title-value"> {job.title}</div>
                                 </div>
-                                <img className="job-image" src={job.img}></img>
+                                <img alt="job-image" className="job-image" src={job.img}></img>
                                 <div className="job-field">
                                     <div className="job-field-description">Job Field</div>
                                     <div className="job-field-value"> {job.job_field}</div>
