@@ -332,7 +332,7 @@ const WorkCardsEmployee = ({userData}) => {
                             </div>
                         </div>
                         <div className="ad">
-                            <div className="ad-header">Information about my job</div>
+                            <div className="ad-header">Information about my job offer</div>
                             <div className="ad-info-field">
                                 <div className="ad-info-title">{ad.title}</div>
                             </div>
@@ -341,28 +341,28 @@ const WorkCardsEmployee = ({userData}) => {
                                 <div className="ad-info-value">{ad.job_field}</div>
                             </div>
                             <div className="ad-info-field">
+                                <div className="ad-info-name">Position</div>
+                                <div className="ad-info-value">{ad.position}</div>
+                            </div>
+                            <div className="ad-info-field">
                                 <div className="ad-info-name">Location</div>
                                 <div className="ad-info-value">{ad.location}</div>
                             </div>
                             <div className="ad-info-field">
-                                <div className="ad-info-name">Education</div>
-                                <div className="ad-info-value">{ad.education}</div>
-                            </div>
-                            <div className="ad-info-field">
-                                <div className="ad-info-name">Languages</div>
-                                <div className="ad-info-value">{ad.languages}</div>
-                            </div>
-                            <div className="ad-info-field">
-                                <div className="ad-info-name">Hobbies</div>
-                                <div className="ad-info-value">{ad.hobbies}</div>
-                            </div>
-                            <div className="ad-info-field-big">
-                                <div className="ad-info-name">Skills</div>
-                                <div className="ad-info-value">{ad.skills}</div>
+                                <div className="ad-info-name">Salary</div>
+                                <div className="ad-info-value">{ad.salary}</div>
                             </div>
                             <div className="ad-info-field-big">
                                 <div className="ad-info-name">Experience</div>
                                 <div className="ad-info-value">{ad.experience}</div>
+                            </div>
+                            <div className="ad-info-field-big">
+                                <div className="ad-info-name">Duties</div>
+                                <div className="ad-info-value">{ad.duties}</div>
+                            </div>
+                            <div className="ad-info-field-big">
+                                <div className="ad-info-name">Skills</div>
+                                <div className="ad-info-value">{ad.skills}</div>
                             </div>
                             <img alt="ad-logo" className="ad-logo" src={`${ad.img}`}></img>
                         </div>
