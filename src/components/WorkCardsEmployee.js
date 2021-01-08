@@ -131,10 +131,10 @@ const WorkCardsEmployee = ({userData}) => {
         
     }
 
+    // Button Functionality, disliked, liked and return
     const handleSwipeButtons = (action, adID, jobUserId, jobUserName, jobUserProfilePic) => {
         if(action === "disliked")
         {
-            console.log("vyksta dislaiko metodas")
             setLiked(false);
             setDisliked(true);
             if(userData.user_id){
@@ -151,7 +151,6 @@ const WorkCardsEmployee = ({userData}) => {
                     })
             }       
         } else if (action === "liked"){
-            console.log("vyksta laiko metodas")
             setLiked(true);
             setDisliked(false);
             if(userData.user_id){
@@ -208,8 +207,6 @@ const WorkCardsEmployee = ({userData}) => {
                     .catch((error) => {
                         alert(error.message)
                     })
-                console.log(dislikes)
-                //window.location.reload();
             }
         }
             setTimeout(function() {
@@ -218,7 +215,7 @@ const WorkCardsEmployee = ({userData}) => {
             }, 1000);
     }
 
-    // Metodas skirtas surasti rodomo skelbimo informacija
+    // Get ad info that is on display (latest)
     const getDisplayAdInfo = () => {
         let adInfo = [];
         for(let i = 0; i < employeeSearch.length; i++)
@@ -233,18 +230,15 @@ const WorkCardsEmployee = ({userData}) => {
         return adInfo;
     }
 
-    // Prideti metodai kurie atlieka veiksmus pagal paspausta mygtuka
-
+    // Methods that react to button click and call other methods
     const handleOnDislikeClick = () => {
         let adInfo = getDisplayAdInfo();
         handleSwipeButtons("disliked", adInfo.adId, adInfo.adUserId, adInfo.adUserName, adInfo.adUserImg);
-        console.log(adInfo)
     }
     
     const handleOnLikeClick = () => {
         let adInfo = getDisplayAdInfo();
         handleSwipeButtons("liked", adInfo.adId, adInfo.adUserId, adInfo.adUserName, adInfo.adUserImg);
-        console.log(adInfo)
     }
 
     const handleOnSkipClick = () => {

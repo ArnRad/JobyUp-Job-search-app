@@ -23,6 +23,15 @@ function ChatScreen({userid}) {
           }); 
     }, [])
 
+    setInterval(function(){ 
+        fire.firestore().collection("messages")
+        .where('chat_id','==',chatID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
+          }); 
+    }, 10000);
+
     useEffect(() => {
         fire.auth().onAuthStateChanged(user => {
             if(user) {
@@ -35,15 +44,6 @@ function ChatScreen({userid}) {
             }
           });
     }, [])
-
-    // setInterval(function(){ 
-    //     fire.firestore().collection("messages")
-    //     .where('chat_id','==',chatID)
-    //     .get()
-    //     .then(querySnapshot => {
-    //         querySnapshot.docs.map(doc => {setChat(oldArray => [...oldArray, doc.data()]); setMessages(doc.data().message)});
-    //       }); 
-    // }, 10000);
 
     const checkAuth = e => {
         let auth = false;
@@ -61,7 +61,6 @@ function ChatScreen({userid}) {
         let placeholder = messages;
         placeholder.push(userid + ':' + input);
         setMessages(placeholder);
-        console.log(messages);
         fire.firestore().collection('messages')
                           .doc(chatID)
                           .update({

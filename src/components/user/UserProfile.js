@@ -589,7 +589,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                 </div>
                 <div className="job-section offer">
                     <h1 className="job-section-header">Employee Search</h1>
-                    {userEmployeeSearchData.length != 0 ? (
+                    {userEmployeeSearchData.length !== 0 ? (
                         <div>
                             <div className="no-ad-section-container">
                                 <div className="no-ad-section">
@@ -677,6 +677,7 @@ const UserProfile = ({ handleLogout, userid }) => {
                                     multiple
                                     type="file"
                                     onChange={handleAddImageChange}
+                                    required
                                 />
                                 <label className="upload-image-wrap" htmlFor="contained-button-file">
                                     <span>{userData.img_name}</span>

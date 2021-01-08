@@ -87,7 +87,7 @@ const UserInfo = ({ handleLogout, userid, userEmail }) => {
                     <div className="user-welcome-container">
                         <div className="user-welcome">
                             <h1>Welcome to your profile page</h1>
-                            <h2>To start with please fill out information about yourself</h2>
+                            <h2>Firstly please fill out information about yourself</h2>
                             <h3>Or you can <Link style={{ textDecoration: 'none' }} to="/"><Button onClick={handleLogout} variant="contained" size="small" color="primary">Logout</Button></Link></h3>
                         </div>
                     </div>

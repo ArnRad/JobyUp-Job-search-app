@@ -68,7 +68,6 @@ function Chats(userid) {
                      <Chat key={index}
                          name={setName(chat)}
                          message={setMessage(chat)}
-                         // timestamp="40 seconds ago"
                          profilePic={setProfilePic(chat)}
                          chatID={chat.chat_id}
                      />
