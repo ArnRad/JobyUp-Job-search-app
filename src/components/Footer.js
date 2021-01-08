@@ -47,16 +47,16 @@ function Footer() {
                 </div>
                 <div className="social-icons">
                     <div className="icon-item">
-                        <FacebookIcon />
+                        <a href="https://www.facebook.com/" target="_blank"><FacebookIcon /></a>
                     </div>
                     <div className="icon-item">
-                        <InstagramIcon />
+                        <a href="https://www.instagram.com/" target="_blank"><InstagramIcon /></a>
                     </div>
                     <div className="icon-item">
-                        <TwitterIcon />
+                        <a href="https://twitter.com/" target="_blank"><TwitterIcon /></a>
                     </div>
                     <div className="icon-item">
-                        <LinkedInIcon />
+                        <a href="https://linkedin.com/" target="_blank"><LinkedInIcon /></a>
                     </div>
                 </div>
             </div>
