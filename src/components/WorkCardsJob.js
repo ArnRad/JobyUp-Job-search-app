@@ -131,7 +131,6 @@ const WorkCardsJob = ({userData}) => {
         
     }
 
-    // Button Functionality, disliked, liked and return
     const handleSwipeButtons = (action, adID, jobUserId, jobUserName, jobUserProfilePic) => {
         if(action === "disliked")
         {
@@ -215,7 +214,6 @@ const WorkCardsJob = ({userData}) => {
             }, 1000);
     }
 
-    // Get ad info that is on display (latest)
     const getDisplayAdInfo = () => {
         let adInfo = [];
         for(let i = 0; i < jobSearch.length; i++)
@@ -230,7 +228,6 @@ const WorkCardsJob = ({userData}) => {
         return adInfo;
     }
 
-    // Methods that react to button click and call other methods
     const handleOnDislikeClick = () => {
         let adInfo = getDisplayAdInfo();
         handleSwipeButtons("disliked", adInfo.adId, adInfo.adUserId, adInfo.adUserName, adInfo.adUserImg);
@@ -280,7 +277,6 @@ const WorkCardsJob = ({userData}) => {
                     null
                 )}
 
-                {/* Prideti mygtukai is swipebuttons klases i workcards klase */}
                 <div className="swipeButtons">
                     <IconButton className="swipeButtons-repeat" onClick={handleOnSkipClick}>
                         <ReplayIcon fontSize="large"/>

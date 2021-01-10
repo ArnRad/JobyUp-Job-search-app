@@ -37,6 +37,18 @@
                     height: 35px;
                     width: auto;
                 }
+
+                .rights {
+                    @media (max-width: 1680px) {
+                        font-size: 14px;
+                        width: 200%;
+                    }
+
+                    @media (max-width: 1028px) {
+                        font-size: 10px;
+                        width: 250%;
+                    }
+                }
             }
 
             .info-item:first-of-type {

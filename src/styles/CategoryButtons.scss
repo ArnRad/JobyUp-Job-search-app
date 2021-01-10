@@ -21,6 +21,15 @@
         width: 10%;
         margin: 0px 20px 0px 20px;
         padding: 10px;
+
+
+        @media (max-width: 1680px) {
+            width: 15%;
+        }
+
+        @media (max-width: 1028px) {
+            width: 30%;
+        }
     }
 
     .category-button:hover,

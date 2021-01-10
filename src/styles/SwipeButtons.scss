@@ -1,9 +1,13 @@
 .swipeButtons {
     position: absolute;
-    bottom: 3vh;
+    bottom: 30px;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+
+    @media (max-height: 700px) {
+        bottom: 10px;
+    }
 
     .MuiIconButton-root{
         background-color: #FFFFFF;

@@ -27,10 +27,18 @@
     justify-content: space-around;
     align-items: flex-start;
 
+    @media (max-width: 1000px) {
+        flex-wrap: wrap;
+    }
+
     .col {
-        width: 20%;
         text-align: center;
-        
+        margin-top: 20px;
+
+        @media (min-width: 1001px) {
+            width: 20%;
+        }
+
         .col-title {
             text-align: center;
             font-size: 18px;
@@ -53,14 +61,21 @@
 }
 
 .supportCols {
-    margin-top: 20px;
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
 
+    @media (max-width: 1000px) {
+        display: block;
+    }
+
     .col {
-        width: 20%;
         text-align: center;
+        margin-top: 40px;
+
+        @media (min-width: 1001px) {
+            width: 20%;
+        }
         
         .col-title {
             text-align: center;

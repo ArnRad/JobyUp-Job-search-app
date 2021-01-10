@@ -42,7 +42,7 @@ function Footer() {
                         </Link>
                     </div>
                     <div className="info-item">
-                        © JobyUP International 2020
+                        <p className="rights">© JobyUP International 2020</p>
                     </div>
                 </div>
                 <div className="social-icons">
